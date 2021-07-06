@@ -1,0 +1,120 @@
+package com.amerd.schoolapp.controllers;
+
+import com.amerd.schoolapp.entities.Appuser;
+import com.amerd.schoolapp.entities.facades.local.AppuserFacadeLocal;
+import com.amerd.schoolapp.util.constants.UIMessages;
+import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.security.enterprise.identitystore.Pbkdf2PasswordHash;
+import javax.transaction.Transactional;
+
+@RequestScoped
+@Named
+public class UsersController implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private String _username;
+    private String _password;
+    private String _privilege;
+    private List<Appuser> _users;
+    private Appuser selectedUser;
+
+    @Inject
+    AppuserFacadeLocal appuserFacadeLocal;
+
+    @Inject
+    FacesContext facesContext;
+
+    @Inject
+    Pbkdf2PasswordHash passwordHasher;
+
+    public UsersController() {
+    }
+
+    @PostConstruct
+    public void onInit() {
+        refreshTableData();
+    }
+
+    public List<Appuser> getUsers() {
+        return _users;
+    }
+
+    @Transactional
+    public Appuser addUser() {
+        if (_username.isBlank() || _password.isBlank() || _privilege.isBlank()) {
+            setUImessage(FacesMessage.SEVERITY_WARN, UIMessages.MISSING_FORM_INPUT);
+            return null;
+        }
+        Appuser newUser = new Appuser();
+        newUser.setAppUsername(_username);
+        newUser.setAppPassword(passwordHasher.generate(_password.toCharArray()));
+        newUser.setAppPrivilege(_privilege);
+        appuserFacadeLocal.create(newUser);
+        if (newUser.getId() != null) {
+            setUImessage(FacesMessage.SEVERITY_INFO, UIMessages.SAVE_USER_SUCCESS);
+        } else {
+            setUImessage(FacesMessage.SEVERITY_ERROR, UIMessages.SAVE_PROBLEM);
+        }
+        return newUser;
+    }
+
+    @Transactional
+    public void deleteUser() {
+        if (selectedUser != null) {
+            appuserFacadeLocal.remove(selectedUser);
+            refreshTableData();
+            setUImessage(FacesMessage.SEVERITY_INFO, "User '" + selectedUser.getAppUsername() + "' removed.");
+            this.selectedUser = null;
+        } 
+    }
+
+    public String getUsername() {
+        return _username;
+    }
+
+    public void setUsername(String _username) {
+        this._username = _username;
+    }
+
+    public String getPassword() {
+        return _password;
+    }
+
+    public void setPassword(String _password) {
+        this._password = _password;
+    }
+
+    public String getPrivilege() {
+        return _privilege;
+    }
+
+    public void setPrivilege(String _privilege) {
+        this._privilege = _privilege;
+    }
+
+    public Appuser getSelectedUser() {
+        return selectedUser;
+    }
+
+    public void setSelectedUser(Appuser selectedUser) {
+        this.selectedUser = selectedUser;
+    }
+
+    protected void setUImessage(Severity severity, String msg) {
+        facesContext.addMessage(null, new FacesMessage(severity, msg, null));
+    }
+
+    protected void refreshTableData() {
+        this._users = appuserFacadeLocal.findAll();
+    }
+    //TODO: conditional navigation: one method here, or in a navigator bean, to let me add paramaters to button actions and navigate that way.
+}

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view> 
+        <h:head>
+            <title>Login page</title>
+        </h:head>
+        <h:body>
+            <f:facet name="last">
+                <h:outputStylesheet name="css/theme1.css"/>
+            </f:facet>
+            <p:outputPanel id="login-form-panel-1">
+                <div class="ui-g">
+                    <div class="ui-g-4"/>
+                    <div class="ui-g-4">
+                        <h3 style="text-align: center">Enter your credentials</h3>
+                        <h:form id="login">
+                            <p:messages id="message" globalOnly="true"/>
+                            <h:panelGrid columns="3" cellpadding="3" style="margin: 0 auto" rendered="#{loginController.loginVisible}">
+
+                                <p:outputLabel for="usernamelogintxt" value="Username "/>
+                                <p:inputText id="usernamelogintxt" value="#{loginController.username}"/>
+                                <p:message for="usernamelogintxt"/>
+
+                                <p:outputLabel for="passwordlogintxt" value="Password "/>
+                                <p:inputText id="passwordlogintxt" value="#{loginController.password}" type="password"/>
+                                <p:message for="passwordlogintxt"/>
+
+                                <p:commandButton process="@form" update="login-form-panel-1" value="Login" actionListener="#{loginController.login()}" ajax="false"/>
+
+                            </h:panelGrid>
+                        </h:form>
+                    </div>
+                    <div class="ui-g-12">
+                        <h:form id="logged-in-as-panel">
+                            <p:panelGrid style="margin: 0 auto" columns="2" rendered="#{loginController.isLoggedIn}">
+                                <p:outputLabel for="logged-user-name" value="Logged in as: "/>
+                                <p:outputLabel id="logged-user-name" value="#{loginController.username}"/>
+                                <p:commandButton process="@form" update="login-form-panel-1" value="Log Out" 
+                                                 styleClass="rounded-button ui-button-danger" action="#{loginController.logout()}"/>
+                                <p:commandButton process="@form" update="login-form-panel-1" 
+                                                 value="Go in" actionListener="#{loginController.login()}" ajax="false"/>
+                            </p:panelGrid>
+                        </h:form>
+                    </div>
+                </div>
+            </p:outputPanel>
+        </h:body>
+    </f:view>
+
+</html>
+

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view>
+
+        <h:head>
+            <title>User Information</title>
+
+        </h:head>
+        <h:body>
+            <f:facet name="last">
+                <h:outputStylesheet name="css/theme1.css"/>
+            </f:facet>
+
+            <div class="mainContentsBox">
+                <p:panel id="top-main-menubar">
+                    <h:form style="align-content: center">
+                        <div  style="margin: 0vw 20vw 0vw 20vw">
+                            <p:messages id="nav-error-msges" closable="true"/>
+                        </div>
+                        <p:megaMenu  orientation="horizontal" autoDisplay="false">
+                            <p:submenu label="Logged in as #{loginController.currentUser.appUsername}" icon="pi pi-sign-out">
+                                 <p:column>
+                                    <p:submenu >
+                                        <p:menuitem value="Log out" process="@form" action="#{loginController.logout()}"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                            <p:submenu label="Users" icon="pi pi-fw pi-users">
+                                <p:column>
+                                    <p:submenu label="Users">
+                                        <p:menuitem value="All" actionListener="#{viewNavigator.toUsersPage()}" process="@form" update="nav-error-msges"/>
+                                        <p:menuitem value="Staff" actionListener="#{viewNavigator.toStaffPage()}" process="@form" update="nav-error-msges"/>
+                                        <p:menuitem value="Students" actionListener="#{viewNavigator.toStudentsPage()}" process="@form" update="nav-error-msges"/>
+                                        <p:menuitem value="Teachers" actionListener="#{viewNavigator.toTeachersPage()}" process="@form" update="nav-error-msges"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                            <p:submenu label="Subjects" icon="pi pi-book">
+                                <p:column>
+                                    <p:submenu label="Subjects">
+                                        <p:menuitem value="All" actionListener="#{viewNavigator.toSubjectsPage()}" process="@form" update="nav-error-msges"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                            <p:submenu label="Classrooms" icon="pi pi-home">
+                                <p:column>
+                                    <p:submenu label="Classrooms">
+                                        <p:menuitem value="All" actionListener="#{viewNavigator.toClassroomsPage()}" process="@form" update="nav-error-msges"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                            <p:submenu label="Classes">
+                                <p:column>
+                                    <p:submenu label="Classes">
+                                        <p:menuitem value="All" actionListener="#{viewNavigator.toClassgroupsPage()}" process="@form" update="nav-error-msges"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                        </p:megaMenu>
+                    </h:form>
+                </p:panel>
+                <p:sticky target="top-main-menubar"/>
+                <p:panel id="all-user-table-panel" style="margin: 5vw 7vw 7vw 7vw">
+                    <f:facet name="header">
+                        <h3 style="text-align: center">All users </h3> 
+                    </f:facet>
+                    <h:form>
+                        <div  style="margin: 0vw 20vw 0vw 20vw">
+                            <p:messages id="table-action-msg" closable="true"/>
+                        </div>
+                        <p:dataTable id="all-users-table" value="#{usersController.users}" var="user" rows="10"
+                                     rowKey="#{user.id}"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                     rowsPerPageTemplate="5,10,{ShowAll|'All'}"
+                                     paginatorPosition="bottom"
+                                     selection="#{usersController.selectedUser}"
+                                     selectionMode="single" allowUnsorting="true" sortMode="single">
+                            <p:column sortBy="#{user.id}" headerText="ID">
+                                <h:outputText value="#{user.id}"/>
+                            </p:column>
+                            <p:column sortBy="#{user.appUsername}" headerText="Username">
+                                <h:outputText value="#{user.appUsername}"/>
+                            </p:column>
+                            <p:column sortBy="#{user.appPrivilege}" headerText="Privilege">
+                                <h:outputText value="#{user.appPrivilege}"/>
+                            </p:column>
+                        </p:dataTable>
+                        <p:contextMenu for="all-users-table">
+                            <p:menuitem value="Delete" update="all-user-table-panel" icon="pi pi-times" 
+                                        actionListener="#{usersController.deleteUser()}">
+                                <p:confirm header="Delete user" message="Are you sure?" icon="ui-icon-alert" />
+                            </p:menuitem>
+                        </p:contextMenu>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />  
+                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />  
+                        </p:confirmDialog>
+                    </h:form>
+                </p:panel>
+                <br/>
+            </div>
+            <div>
+                <p:panel>
+                    <h:form style="align-content: center">
+                        <div style="margin: 0vw 20vw 0vw 20vw">
+                            <p:messages id="add-user-msgs" closable="true"/>
+                        </div>
+                        <h:panelGrid columns="2" cellpadding="3" style="margin: 0 auto; align-content: center">
+                            <p:outputLabel for="username" value="Username: "/>
+                            <p:inputText id="username" value="#{usersController.username}"/>
+                            <p:outputLabel for="password" value="Password: "/>
+                            <p:inputText id="password" value="#{usersController.password}"/>
+                            <p:outputLabel for="privilege" value="Privilege: "/>
+                            <p:inputText id="privilege" value="#{usersController.privilege}"/>
+                            <div>
+                                <p:commandButton type="submit" value="Submit" icon="pi pi-check" iconPos="right" 
+                                                 actionListener="#{usersController.addUser()}" 
+                                                 process="@form" update="all-user-table-panel add-user-msgs"/> 
+                            </div>
+                        </h:panelGrid>
+                    </h:form>
+                    <f:facet name="footer"> 
+                        <h:form>
+                            <p:commandButton styleClass="rounded-button ui-button-danger" value="Log out" action="#{loginController.logout()}"/>
+                        </h:form>
+                    </f:facet>
+                </p:panel>
+            </div>
+        </h:body>
+
+    </f:view>
+
+
+</html>
+

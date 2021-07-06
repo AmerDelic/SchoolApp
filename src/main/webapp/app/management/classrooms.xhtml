@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view>
+        <h:head>
+            <title>Classrooms</title>
+        </h:head>
+        <h:body>
+            <f:facet name="last">
+                <h:outputStylesheet name="css/theme1.css"/>
+            </f:facet>
+            <div class="mainContentsBox">
+                <p:panel id="top-main-menubar">
+                    <h:form style="align-content: center">
+                        <div  style="margin: 0vw 20vw 0vw 20vw">
+                            <p:messages id="nav-error-msges" closable="true"/>
+                        </div>
+                        <p:megaMenu  orientation="horizontal" autoDisplay="false">
+                            <p:submenu label="Logged in as #{loginController.currentUser.appUsername}" icon="pi pi-sign-out">
+                                 <p:column>
+                                    <p:submenu >
+                                        <p:menuitem value="Log out" process="@form" action="#{loginController.logout()}"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                            <p:submenu label="Users" icon="pi pi-fw pi-users">
+                                <p:column>
+                                    <p:submenu label="Users">
+                                        <p:menuitem value="All" actionListener="#{viewNavigator.toUsersPage()}" process="@form" update="nav-error-msges"/>
+                                        <p:menuitem value="Staff" actionListener="#{viewNavigator.toStaffPage()}" process="@form" update="nav-error-msges"/>
+                                        <p:menuitem value="Students" actionListener="#{viewNavigator.toStudentsPage()}" process="@form" update="nav-error-msges"/>
+                                        <p:menuitem value="Teachers" actionListener="#{viewNavigator.toTeachersPage()}" process="@form" update="nav-error-msges"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                            <p:submenu label="Subjects" icon="pi pi-book">
+                                <p:column>
+                                    <p:submenu label="Subjects">
+                                        <p:menuitem value="All" actionListener="#{viewNavigator.toSubjectsPage()}" process="@form" update="nav-error-msges"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                            <p:submenu label="Classrooms" icon="pi pi-home">
+                                <p:column>
+                                    <p:submenu label="Classrooms">
+                                        <p:menuitem value="All" actionListener="#{viewNavigator.toClassroomsPage()}" process="@form" update="nav-error-msges"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                           <p:submenu label="Classes">
+                                <p:column>
+                                    <p:submenu label="Classes">
+                                        <p:menuitem value="All" actionListener="#{viewNavigator.toClassgroupsPage()}" process="@form" update="nav-error-msges"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                        </p:megaMenu>
+                    </h:form>
+                </p:panel>
+                <p:sticky target="top-main-menubar"/>
+                <p:panel style="margin: 5vw 7vw 7vw 7vw">
+                    <f:facet name="header">
+                        <h3 style="text-align: center">All Classrooms</h3> 
+                    </f:facet>
+                    <p:dataTable id="all-classrooms-table" value="#{classroomController.classrooms}" var="classroom" rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}" 
+                                 paginatorPosition="bottom">
+                        <p:column headerText="ID">
+                            <h:outputText value="#{classroom.id}"/>
+                        </p:column>
+                        <p:column headerText="Code">
+                            <h:outputText value="#{classroom.roomCode}"/>
+                        </p:column>
+                        <p:column headerText="AV">
+                            <h:outputText value="#{classroom.isAvEquipped()}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+                <br/>
+            </div>
+            <div>
+                <p:panel>
+                    <f:facet name="footer"> 
+                        <h:form>
+                            <p:commandButton styleClass="rounded-button ui-button-danger" value="Log out" action="#{loginController.logout()}"/>
+                        </h:form>
+                    </f:facet>
+                </p:panel>
+            </div>
+        </h:body>
+
+    </f:view>
+</html>
+
+

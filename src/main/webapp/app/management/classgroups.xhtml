@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view>
+        <h:head>
+            <title>Classes</title>
+        </h:head>
+        <h:body>
+            <f:facet name="last">
+                <h:outputStylesheet name="css/theme1.css"/>
+            </f:facet>
+            <div class="mainContentsBox">
+                <p:panel id="top-main-menubar">
+                    <h:form style="align-content: center">
+                        <div  style="margin: 0vw 20vw 0vw 20vw">
+                            <p:messages id="nav-error-msges" closable="true"/>
+                        </div>
+                        <p:megaMenu  orientation="horizontal" autoDisplay="false">
+                            <p:submenu label="Logged in as #{loginController.currentUser.appUsername}" icon="pi pi-sign-out">
+                                 <p:column>
+                                    <p:submenu >
+                                        <p:menuitem value="Log out" process="@form" action="#{loginController.logout()}"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                            <p:submenu label="Users" icon="pi pi-fw pi-users">
+                                <p:column>
+                                    <p:submenu label="Users">
+                                        <p:menuitem value="All" actionListener="#{viewNavigator.toUsersPage()}" process="@form" update="nav-error-msges"/>
+                                        <p:menuitem value="Staff" actionListener="#{viewNavigator.toStaffPage()}" process="@form" update="nav-error-msges"/>
+                                        <p:menuitem value="Students" actionListener="#{viewNavigator.toStudentsPage()}" process="@form" update="nav-error-msges"/>
+                                        <p:menuitem value="Teachers" actionListener="#{viewNavigator.toTeachersPage()}" process="@form" update="nav-error-msges"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                            <p:submenu label="Subjects" icon="pi pi-book">
+                                <p:column>
+                                    <p:submenu label="Subjects">
+                                        <p:menuitem value="All" actionListener="#{viewNavigator.toSubjectsPage()}" process="@form" update="nav-error-msges"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                            <p:submenu label="Classrooms" icon="pi pi-home">
+                                <p:column>
+                                    <p:submenu label="Classrooms">
+                                        <p:menuitem value="All" actionListener="#{viewNavigator.toClassroomsPage()}" process="@form" update="nav-error-msges"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                            <p:submenu label="Classes">
+                                <p:column>
+                                    <p:submenu label="Classes">
+                                        <p:menuitem value="All" actionListener="#{viewNavigator.toClassgroupsPage()}" process="@form" update="nav-error-msges"/>
+                                    </p:submenu>
+                                </p:column>
+                            </p:submenu>
+                        </p:megaMenu>
+                    </h:form>
+                </p:panel>
+                <p:sticky target="top-main-menubar"/>
+                <div class="ui-g">
+                    <div class="ui-g-8">
+                        <p:panel id="all-classes-table-panel" style="margin: 1vw auto">
+                            <f:facet name="header">
+                                <h3 style="text-align: center">All Classes</h3> 
+                            </f:facet>
+                            <h:form>
+                                <div  style="margin: auto">
+                                    <p:messages id="table-action-msg" closable="true"/>
+                                </div>
+                                <p:dataTable id="all-classgroup-table" value="#{classgroupController.classgroups}" var="classgroup" rows="10"
+                                             rowKey="#{classgroup.id}"
+                                             paginator="true"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                             rowsPerPageTemplate="5,10,{ShowAll|'All'}"
+                                             paginatorPosition="bottom"
+                                             selection="#{classgroupController.selectedClassgroup}"
+                                             selectionMode="single" allowUnsorting="true" sortMode="single">
+                                    <p:column sortBy="#{classgroup.grade}" headerText="Class (grade, head-teacher, classroom)">
+                                        <h:outputText value="#{classgroup.toString()}"/>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:contextMenu for="all-classgroup-table">
+                                    <p:menuitem value="To class page .." icon="pi pi-angle-right"/>
+                                    <p:menuitem value="Delete" icon="pi pi-times" process="@form" update="create-class-panel all-classes-table-panel" 
+                                                actionListener="#{classgroupController.deleteClassgroup()}">
+                                        <p:confirm header="Delete class" message="Are you sure?" icon="ui-icon-alert" />  
+                                    </p:menuitem>
+                                </p:contextMenu>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />  
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />  
+                                </p:confirmDialog>
+                            </h:form>
+                        </p:panel>
+                    </div>
+                    <div class="ui-g-4">
+                        <p:panel id="create-class-panel" style="margin: 1vw auto" header="Create Class"  toggleable="true" toggleSpeed="500"
+                                 closeSpeed="500" widgetVar="panel">
+
+                            <h:form>
+                                <div id="classgroup-creation" class="ui-g"> 
+                                    <div class="ui-g-6"> 
+                                        <p:outputLabel for="non-head-teacher-list" value="Available teachers: "/>   
+                                    </div>
+                                    <div class="ui-g-6">
+                                        <p:selectOneMenu id="non-head-teacher-list" value="#{classgroupController.selectedTeacher}"
+                                                         converter="#{staffConverter}"
+                                                         var="t" panelStyle="width:200px" filter="true" filterMatchMode="startsWith">
+                                            <f:selectItems id="available-teachers" 
+                                                           value="#{staffController.nonHeadTeachers}" 
+                                                           var="teacher" 
+                                                           itemLabel="#{teacher.toString()}" 
+                                                           itemValue="#{teacher}"/>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Surname and Name"/>
+                                                </f:facet>
+                                                <h:outputText value="#{t}"/>
+                                            </p:column>
+                                        </p:selectOneMenu>
+                                    </div>
+                                     <div class="ui-g-6"> 
+                                        <p:outputLabel for="classroom-list" value="Classrooms: "/>   
+                                    </div> 
+                                    <div class="ui-g-6">
+                                        <p:selectOneMenu id="classroom-list" value="#{classgroupController.selectedClassroom}"
+                                                         converter="#{classroomConverter}"
+                                                         var="cr" panelStyle="width:250px" filter="true" filterMatchMode="startsWith">
+                                            <f:selectItems value="#{classgroupController.classrooms}" var="classroom" itemLabel="#{classroom.toString()}" itemValue="#{classroom}"/>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Classroom"/>
+                                                </f:facet>
+                                                <h:outputText value="#{cr}"/>
+                                            </p:column>
+                                        </p:selectOneMenu>
+                                    </div>
+                                    <div class="ui-g-6"> 
+                                        <p:outputLabel for="grade-choice" value="Grade: "/>   
+                                    </div> 
+                                    <div class="ui-g-6">
+                                        <p:selectOneMenu id="grade-choice" value="#{classgroupController.selectedGrade}"
+                                                         var="g" panelStyle="width:100px">
+                                            <f:selectItems value="#{classgroupController.grades}" var="grade" itemLabel="#{grade.toString()}" itemValue="#{grade}"/>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Grade"/>
+                                                </f:facet>
+                                                <h:outputText value="#{g}"/>
+                                            </p:column>
+                                        </p:selectOneMenu>
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <p:commandButton type="submit" value="Submit" icon="pi pi-check" iconPos="right" 
+
+                                                         process="@form" update="create-class-panel all-classes-table-panel" actionListener="#{classgroupController.createClassgroup()}"/> 
+                                    </div>
+                                    <f:facet name="options">
+                                        <p:menu>
+                                            <p:submenu label="Settings">
+                                                <p:menuitem value="Toggle" url="#" icon="pi pi-clone" onclick="PF('panel').toggle()"/>
+                                            </p:submenu>
+                                        </p:menu>
+                                    </f:facet>
+                                </div>
+                            </h:form>
+                        </p:panel>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p:panel>
+
+                    <f:facet name="footer"> 
+                        <h:form>
+                            <p:commandButton styleClass="rounded-button ui-button-danger" value="Log out" action="#{loginController.logout()}"/>
+                        </h:form>
+                    </f:facet>
+                </p:panel>
+            </div>
+        </h:body>
+    </f:view>
+</html>
