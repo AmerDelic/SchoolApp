@@ -113,7 +113,7 @@
                                                          converter="#{staffConverter}"
                                                          var="t" panelStyle="width:200px" filter="true" filterMatchMode="startsWith">
                                             <f:selectItems id="available-teachers" 
-                                                           value="#{staffController.nonHeadTeachers}" 
+                                                           value="#{classgroupController.nonHeadTeachers}" 
                                                            var="teacher" 
                                                            itemLabel="#{teacher.toString()}" 
                                                            itemValue="#{teacher}"/>

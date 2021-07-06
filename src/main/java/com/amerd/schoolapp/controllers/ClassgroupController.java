@@ -13,14 +13,13 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 
 @RequestScoped
 @Named
-public class ClassgroupController implements Serializable {
+public class ClassgroupController extends StaffController implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -36,14 +35,11 @@ public class ClassgroupController implements Serializable {
     ClassroomFacadeLocal classroomFacade;
     @Inject
     ClassgroupFacadeLocal classFacade;
-    @Inject
-    SchoolstaffFacadeLocal staffFacade;
-    @Inject
-    FacesContext facesContext;
+   
 
     public ClassgroupController() {
     }
-
+    @Override
     @PostConstruct
     public void onInit() {
         this._grades = Arrays.asList(1,2,3,4);
@@ -105,10 +101,11 @@ public class ClassgroupController implements Serializable {
     public void setSelectedClassroom(Classroom _selectedClassroom) {
         this._selectedClassroom = _selectedClassroom;
     }
-
-    private void refreshTableData() {
+    @Override
+    protected void refreshTableData() {
         this._classgroups = classFacade.findAll();
         this._classrooms = classroomFacade.findAll();
+        super.refreshTableData();
     }
 
     public Classgroup getSelectedClassgroup() {
@@ -142,9 +139,4 @@ public class ClassgroupController implements Serializable {
     public void setSelectedGrade(Integer _selectedGrade) {
         this._selectedGrade = _selectedGrade;
     }
-
-    protected void setUImessage(FacesMessage.Severity severity, String msg) {
-        facesContext.addMessage(null, new FacesMessage(severity, msg, null));
-    }
-
 }

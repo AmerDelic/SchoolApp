@@ -23,6 +23,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotEmpty;
 
+/* Login Issue: 
+    a user logs out -> clicks 'back' once at login screen
+    -> another user logs in, but is redirected to according to the previous user's role 
+        ie. previous user was a 'superadmin', next user is 'staff', 
+        the latter user is redirected to a page they don't have access to and gets the 'Forbidden' msg.
+        If the 2nd user does a refresh before attempitng to log in, there are no issues.
+*/
+
 @RequestScoped
 @Named
 public class LoginController implements Serializable{

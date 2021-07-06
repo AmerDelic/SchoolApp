@@ -112,7 +112,6 @@ public class TeacherController extends StaffController implements Serializable {
     @Override
     protected void refreshTableData() {
         this._teachers = teacherFacade.findAll();
-        // provjeri treba li ovaj super poziv 
         super.refreshTableData();
     }
 
