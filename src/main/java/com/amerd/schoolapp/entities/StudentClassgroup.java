@@ -11,9 +11,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-/*
- * Note: Just a auto-generated, unsused class. Needs modification.
- */
+
 @Entity
 @Table(name = "student_classgroup")
 @NamedQueries({
@@ -76,7 +74,6 @@ public class StudentClassgroup implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof StudentClassgroup)) {
             return false;
         }

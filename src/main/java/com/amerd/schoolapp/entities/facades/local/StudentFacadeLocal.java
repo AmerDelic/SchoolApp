@@ -26,4 +26,5 @@ public interface StudentFacadeLocal {
     
     public Student retrieveStudentByAppId(Integer appuserId);
     
+    List<Student> findAllUnassignedStudents();
 }

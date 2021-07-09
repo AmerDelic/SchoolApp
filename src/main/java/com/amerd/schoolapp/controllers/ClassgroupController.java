@@ -3,9 +3,12 @@ package com.amerd.schoolapp.controllers;
 import com.amerd.schoolapp.entities.Classgroup;
 import com.amerd.schoolapp.entities.Classroom;
 import com.amerd.schoolapp.entities.Schoolstaff;
+import com.amerd.schoolapp.entities.Student;
+import com.amerd.schoolapp.entities.StudentClassgroup;
+import com.amerd.schoolapp.entities.StudentClassgroupPK;
 import com.amerd.schoolapp.entities.facades.local.ClassgroupFacadeLocal;
 import com.amerd.schoolapp.entities.facades.local.ClassroomFacadeLocal;
-import com.amerd.schoolapp.entities.facades.local.SchoolstaffFacadeLocal;
+import com.amerd.schoolapp.entities.facades.local.StudentClassgroupFacadeLocal;
 import com.amerd.schoolapp.util.constants.UIMessages;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -25,24 +28,27 @@ public class ClassgroupController extends StaffController implements Serializabl
 
     private List<Classroom> _classrooms;
     private List<Classgroup> _classgroups;
-     private List<Integer> _grades;
+    private List<Integer> _grades;
     private Classgroup _selectedClassgroup;
     private Schoolstaff _selectedTeacher;
     private Classroom _selectedClassroom;
     private Integer _selectedGrade;
+    private Student _selectedStudent;
 
     @Inject
     ClassroomFacadeLocal classroomFacade;
     @Inject
     ClassgroupFacadeLocal classFacade;
-   
+    @Inject
+    StudentClassgroupFacadeLocal classMemberFacade;
 
     public ClassgroupController() {
     }
+
     @Override
     @PostConstruct
     public void onInit() {
-        this._grades = Arrays.asList(1,2,3,4);
+        this._grades = Arrays.asList(1, 2, 3, 4);
         refreshTableData();
     }
 
@@ -78,6 +84,23 @@ public class ClassgroupController extends StaffController implements Serializabl
         }
     }
 
+    @Transactional
+    public void addClassMember() {
+        if (null != this._selectedStudent && null != this._selectedClassgroup) {
+            StudentClassgroup newClassMember = new StudentClassgroup();
+            newClassMember.setStudent(this._selectedStudent);
+            newClassMember.setClassgroup(this._selectedClassgroup);
+            newClassMember.setStudentClassgroupPK(new StudentClassgroupPK(_selectedStudent.getId(), this._selectedClassgroup.getId()));
+            classMemberFacade.create(newClassMember);
+            setUImessage(FacesMessage.SEVERITY_INFO, _selectedStudent.toString() + " added to " + this._selectedClassgroup);
+            refreshTableData();
+        } else {
+            setUImessage(FacesMessage.SEVERITY_WARN, UIMessages.MISSING_FORM_INPUT);
+        }
+    }
+    
+    // TODO: remove student from classgroup, and solve unassigned Ss list not updating in student controller.
+
     public List<Classgroup> getClassgroups() {
         return _classgroups;
     }
@@ -101,6 +124,7 @@ public class ClassgroupController extends StaffController implements Serializabl
     public void setSelectedClassroom(Classroom _selectedClassroom) {
         this._selectedClassroom = _selectedClassroom;
     }
+
     @Override
     protected void refreshTableData() {
         this._classgroups = classFacade.findAll();
@@ -139,4 +163,13 @@ public class ClassgroupController extends StaffController implements Serializabl
     public void setSelectedGrade(Integer _selectedGrade) {
         this._selectedGrade = _selectedGrade;
     }
+
+    public Student getSelectedStudent() {
+        return _selectedStudent;
+    }
+
+    public void setSelectedStudent(Student _selectedStudent) {
+        this._selectedStudent = _selectedStudent;
+    }
+
 }

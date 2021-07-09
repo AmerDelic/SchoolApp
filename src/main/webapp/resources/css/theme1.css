@@ -25,7 +25,7 @@
 
 /* Selects all <p:dataTable>'s */
 #j_idt23, #j_idt24 {
-    margin: 2vw 5vw 2vw 5vw !important;
+    margin: 1vw !important;
 }
 /* teachers page datatable header*/
 #j_idt24_header {

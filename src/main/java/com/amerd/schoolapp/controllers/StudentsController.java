@@ -26,6 +26,7 @@ public class StudentsController extends UsersController implements Serializable 
     private StudentClassgroup _studentClassgroup;
     private List<Studentmark> _studentmarkList;
     private List<Student> _students;
+    private List<Student> _unassignedStudents;
     private Student selectedStudent;
 
     @Inject
@@ -133,6 +134,14 @@ public class StudentsController extends UsersController implements Serializable 
     @Override
     protected void refreshTableData() {
         this._students = studentFacade.findAll();
+        this._unassignedStudents = studentFacade.findAllUnassignedStudents();
     }
 
+    public List<Student> getUnassignedStudents() {
+        return _unassignedStudents;
+    }
+
+    public void setUnassignedStudents(List<Student> _unassignedStudents) {
+        this._unassignedStudents = _unassignedStudents;
+    }
 }

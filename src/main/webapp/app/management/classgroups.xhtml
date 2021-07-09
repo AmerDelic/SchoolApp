@@ -21,7 +21,7 @@
                         </div>
                         <p:megaMenu  orientation="horizontal" autoDisplay="false">
                             <p:submenu label="Logged in as #{loginController.currentUser.appUsername}" icon="pi pi-sign-out">
-                                 <p:column>
+                                <p:column>
                                     <p:submenu >
                                         <p:menuitem value="Log out" process="@form" action="#{loginController.logout()}"/>
                                     </p:submenu>
@@ -93,14 +93,14 @@
                                     </p:menuitem>
                                 </p:contextMenu>
                                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
-                                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />  
-                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />  
+                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />  
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />  
                                 </p:confirmDialog>
                             </h:form>
                         </p:panel>
                     </div>
                     <div class="ui-g-4">
-                        <p:panel id="create-class-panel" style="margin: 1vw auto" header="Create Class"  toggleable="true" toggleSpeed="500"
+                        <p:panel id="create-class-panel" style="margin: 1vw auto" header="Create Class"  toggleable="true" toggleSpeed="500" collapsed="true"
                                  closeSpeed="500" widgetVar="panel">
 
                             <h:form>
@@ -125,7 +125,7 @@
                                             </p:column>
                                         </p:selectOneMenu>
                                     </div>
-                                     <div class="ui-g-6"> 
+                                    <div class="ui-g-6"> 
                                         <p:outputLabel for="classroom-list" value="Classrooms: "/>   
                                     </div> 
                                     <div class="ui-g-6">
@@ -157,14 +157,67 @@
                                         </p:selectOneMenu>
                                     </div>
                                     <div class="ui-g-12">
-                                        <p:commandButton type="submit" value="Submit" icon="pi pi-check" iconPos="right" 
-
-                                                         process="@form" update="create-class-panel all-classes-table-panel" actionListener="#{classgroupController.createClassgroup()}"/> 
+                                        <p:commandButton type="submit" value="Create" icon="pi pi-check" iconPos="right" 
+                                                         process="@form" update="create-class-panel all-classes-table-panel" 
+                                                         actionListener="#{classgroupController.createClassgroup()}"/> 
                                     </div>
                                     <f:facet name="options">
                                         <p:menu>
                                             <p:submenu label="Settings">
                                                 <p:menuitem value="Toggle" url="#" icon="pi pi-clone" onclick="PF('panel').toggle()"/>
+                                            </p:submenu>
+                                        </p:menu>
+                                    </f:facet>
+                                </div>
+                            </h:form>
+                        </p:panel>
+                        <p:panel id="add-student-to-class-pannel" style="margin: 1vw auto" header="Add student to class"  toggleable="true" toggleSpeed="500" collapsed="true"
+                                 closeSpeed="500" widgetVar="panel2">
+                            <h:form>
+                                <div class="ui-g">
+                                    <div class="ui-g-12">
+                                         <p:outputLabel for="student-choice" value="Student: "/> 
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <p:selectOneMenu id="student-choice" value="#{classgroupController.selectedStudent}"
+                                                         converter="#{studentConverter}"
+                                                         var="ss" panelStyle="width:200px" filter="true" filterMatchMode="startsWith">
+                                            <f:selectItems value="#{studentsController.unassignedStudents}" var="student" 
+                                                           itemLabel="#{student.toString()}" itemValue="#{student}"/>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Students"/>
+                                                </f:facet>
+                                                <h:outputText value="#{ss}"/>
+                                            </p:column>
+                                        </p:selectOneMenu>
+                                    </div> 
+                                    <div class="ui-g-12">
+                                         <p:outputLabel for="classgroup-choice" value="Class: "/> 
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <p:selectOneMenu id="classgroup-choice" value="#{classgroupController.selectedClassgroup}"
+                                                         converter="#{classgroupConverter}" 
+                                                         var="cg" panelStyle="width:200px" filter="true" filterMatchMode="startsWith">
+                                            <f:selectItems value="#{classgroupController.classgroups}" var="classgroup" 
+                                                           itemLabel="#{classgroup.toString()}" itemValue="#{classgroup}"/>
+                                            <p:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Classes:"/>
+                                                </f:facet>
+                                                <h:outputText value="#{cg}"/>
+                                            </p:column>
+                                        </p:selectOneMenu>
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <p:commandButton type="submit" value="Add" icon="pi pi-check" iconPos="right" 
+                                                         process="@form" update="create-class-panel all-classes-table-panel add-student-to-class-pannel" 
+                                                         actionListener="#{classgroupController.addClassMember()}"/> 
+                                    </div>
+                                    <f:facet name="options">
+                                        <p:menu>
+                                            <p:submenu label="Settings">
+                                                <p:menuitem value="Toggle" url="#" icon="pi pi-clone" onclick="PF('panel2').toggle()"/>
                                             </p:submenu>
                                         </p:menu>
                                     </f:facet>

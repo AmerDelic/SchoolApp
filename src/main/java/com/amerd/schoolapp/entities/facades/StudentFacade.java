@@ -4,6 +4,8 @@ package com.amerd.schoolapp.entities.facades;
 import com.amerd.schoolapp.entities.facades.local.StudentFacadeLocal;
 import com.amerd.schoolapp.entities.facades.abstracts.AbstractFacade;
 import com.amerd.schoolapp.entities.Student;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,6 +33,15 @@ public class StudentFacade extends AbstractFacade<Student> implements StudentFac
             query.setParameter("appuserId", appuserId);
             Student s = query.getSingleResult();
             return s;
+    }
+    
+    @Override
+    public List<Student> findAllUnassignedStudents() {
+        List<Student> allSs = findAll();
+        List<Student> unassignedSs = allSs.stream()
+                .filter(s -> s.getStudentClassgroup() == null)
+                .collect(Collectors.toList());
+        return unassignedSs;
     }
     
 }

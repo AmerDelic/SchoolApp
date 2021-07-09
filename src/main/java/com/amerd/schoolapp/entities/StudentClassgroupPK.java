@@ -7,9 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 
-/*
- * Note: Just a auto-generated, unsused class. Needs modification.
- */
+
 @Embeddable
 public class StudentClassgroupPK implements Serializable {
 
@@ -56,7 +54,6 @@ public class StudentClassgroupPK implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof StudentClassgroupPK)) {
             return false;
         }

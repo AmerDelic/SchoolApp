@@ -1,7 +1,8 @@
+
 package com.amerd.schoolapp.util.converters;
 
-import com.amerd.schoolapp.entities.facades.local.SubjectFacadeLocal;
-import com.amerd.schoolapp.entities.Subject;
+import com.amerd.schoolapp.entities.Classgroup;
+import com.amerd.schoolapp.entities.facades.local.ClassgroupFacadeLocal;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -12,25 +13,26 @@ import javax.inject.Named;
 
 @Named
 @RequestScoped
-@FacesConverter("subjectConverter")
-public class SubjectConverter implements Converter {
-
+@FacesConverter("classgroupConverter")
+public class ClassgroupConverter implements Converter {
+    
     @Inject
-    SubjectFacadeLocal subjectFacade;
-
+    ClassgroupFacadeLocal classFacade;
+    
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         if ((null == value) || (value.trim().isEmpty())) {
-            return null;
+            return null; 
         }
-        return subjectFacade.findById(Integer.valueOf(value)).get();
+        return classFacade.findById(Integer.valueOf(value)).get();
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        if (value == null) {
+         if (value == null) {
             return "";
         }
-        return ((Subject) value).getIdString();
+       return ((Classgroup)value).getIdString();
     }
+    
 }
