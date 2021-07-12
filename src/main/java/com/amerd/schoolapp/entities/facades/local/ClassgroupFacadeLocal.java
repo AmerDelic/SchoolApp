@@ -2,6 +2,8 @@
 package com.amerd.schoolapp.entities.facades.local;
 
 import com.amerd.schoolapp.entities.Classgroup;
+import com.amerd.schoolapp.entities.Student;
+import com.amerd.schoolapp.entities.StudentClassgroup;
 import java.util.List;
 import java.util.Optional;
 import javax.ejb.Local;
@@ -23,5 +25,9 @@ public interface ClassgroupFacadeLocal {
     List<Classgroup> findRange(int[] range);
 
     int count();
+    
+    void removeMemberReference(Classgroup fromClass, StudentClassgroup studentMember);
+    
+    List<Student> getClassMembers(Classgroup fromClass);
     
 }

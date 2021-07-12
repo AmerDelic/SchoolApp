@@ -182,7 +182,7 @@
                                         <p:selectOneMenu id="student-choice" value="#{classgroupController.selectedStudent}"
                                                          converter="#{studentConverter}"
                                                          var="ss" panelStyle="width:200px" filter="true" filterMatchMode="startsWith">
-                                            <f:selectItems value="#{studentsController.unassignedStudents}" var="student" 
+                                            <f:selectItems value="#{classgroupController.unassignedStudents}" var="student" 
                                                            itemLabel="#{student.toString()}" itemValue="#{student}"/>
                                             <p:column>
                                                 <f:facet name="header">

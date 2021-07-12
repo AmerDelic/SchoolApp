@@ -4,6 +4,7 @@ package com.amerd.schoolapp.entities.facades;
 import com.amerd.schoolapp.entities.facades.local.StudentFacadeLocal;
 import com.amerd.schoolapp.entities.facades.abstracts.AbstractFacade;
 import com.amerd.schoolapp.entities.Student;
+import com.amerd.schoolapp.entities.StudentClassgroup;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.ejb.Stateless;
@@ -43,5 +44,18 @@ public class StudentFacade extends AbstractFacade<Student> implements StudentFac
                 .collect(Collectors.toList());
         return unassignedSs;
     }
+
+    @Override
+    public void removeClassgroupReference(Student fromStudent) {
+        fromStudent.setStudentClassgroup(null);
+        edit(fromStudent);
+//       List<Student> students = fromStudents.stream().map(s -> s.getStudent()).collect(Collectors.toList());
+//       students.forEach(s -> s.setStudentClassgroup(null));
+//       students.forEach(s -> edit(s));
+       
+       
+    }
+    
+    
     
 }
