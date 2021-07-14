@@ -24,7 +24,7 @@ public class StudentConverter implements Converter {
         if ((null == value) || (value.trim().isEmpty())) {
             return null; 
         }
-         return studentFacade.findById(Integer.valueOf(value)).get();
+         return (Student) studentFacade.findById(Integer.valueOf(value)).get();
     }
 
     @Override

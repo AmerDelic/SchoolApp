@@ -1,8 +1,11 @@
 package com.amerd.schoolapp.controllers.navigation;
 
+import com.amerd.schoolapp.entities.Classgroup;
+import com.amerd.schoolapp.entities.facades.local.ClassgroupFacadeLocal;
 import com.amerd.schoolapp.util.constants.UIMessages;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -21,8 +24,11 @@ public class ViewNavigator implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String role;
+    private String classgroupId;
     @Inject
     FacesContext facesContext;
+    @Inject
+    ClassgroupFacadeLocal classFacade;
 
     public ViewNavigator() {
     }
@@ -146,7 +152,7 @@ public class ViewNavigator implements Serializable {
             Logger.getLogger(ViewNavigator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void toClassroomsPage() {
         try {
             switch (role) {
@@ -164,7 +170,7 @@ public class ViewNavigator implements Serializable {
             Logger.getLogger(ViewNavigator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void toClassgroupsPage() {
         try {
             switch (role) {
@@ -201,9 +207,15 @@ public class ViewNavigator implements Serializable {
         }
     }
     
+    // gonna inject this into ClassgroupController
+    public String toHomeroomPage() {
+        return "/app/homeroom.xhtml";
+       
+    }
+
     public void refreshPage() {
         try {
-        getExternalContext().redirect(getExternalContext().getRequestContextPath() + facesContext.getViewRoot().getViewId());
+            getExternalContext().redirect(getExternalContext().getRequestContextPath() + facesContext.getViewRoot().getViewId());
         } catch (IOException ex) {
             Logger.getLogger(ViewNavigator.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -221,13 +233,21 @@ public class ViewNavigator implements Serializable {
         this.role = role;
     }
 
+    public String getClassgroupId() {
+        return classgroupId;
+    }
+
+    public void setClassgroupId(String classgroupId) {
+        this.classgroupId = classgroupId;
+    }
+
     private void redirectToProfile() throws IOException {
         getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/app/profile.xhtml");
     }
 
     private void redirectToSubjects() throws IOException {
         getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/app/subjects.xhtml");
-       
+
     }
 
     private void redirectToUsers() throws IOException {
@@ -245,11 +265,11 @@ public class ViewNavigator implements Serializable {
     private void redirectToTeachers() throws IOException {
         getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/app/management/teachers.xhtml");
     }
-    
+
     private void redirectToClassrooms() throws IOException {
         getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/app/management/classrooms.xhtml");
     }
-    
+
     private void redirectToClassgroups() throws IOException {
         getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/app/management/classgroups.xhtml");
     }

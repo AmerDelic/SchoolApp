@@ -65,7 +65,7 @@
                 <div class="ui-g">
 
                     <div class="ui-g-4">
-                        <p:panel id="add-student-to-class-pannel" style="margin: 1vw auto" header="Add student to class"  toggleable="true" toggleSpeed="500" collapsed="true"
+                        <p:panel id="remove-ss-from-class-pannel" style="margin: 1vw auto" header="Remove student"  toggleable="true" toggleSpeed="500" collapsed="true"
                                  closeSpeed="500" widgetVar="panel2">
                             <h:form>
                                 <div class="ui-g">
@@ -75,23 +75,22 @@
                                     <div class="ui-g-12">
                                         <p:selectOneMenu id="student-choice" value="#{classgroupProfile.selectedMember}"
                                                          converter="#{studentConverter}"
-                                                         var="ss" panelStyle="width:200px" filter="true" filterMatchMode="startsWith">
+                                                         var="classmember" panelStyle="width:200px" filter="true" filterMatchMode="startsWith">
                                             <f:selectItems value="#{classgroupProfile.classMembers}" var="student" 
-                                                           itemLabel="#{student.toString()}" itemValue="#{student}"/>
+                                                           itemLabel="#{student.toString()}" 
+                                                           itemValue="#{student}"/>
                                             <p:column>
                                                 <f:facet name="header">
                                                     <h:outputText value="Students"/>
                                                 </f:facet>
-                                                <h:outputText value="#{ss}"/>
+                                                <h:outputText value="#{classmember}"/>
                                             </p:column>
                                         </p:selectOneMenu>
                                     </div> 
-
-
                                     <div class="ui-g-12">
-                                        <p:commandButton type="submit" value="Add" icon="pi pi-check" iconPos="right" 
-                                                         process="@form" update="add-student-to-class-pannel" 
-                                                         actionListener="#{classgroupController.addClassMember()}"/> 
+                                        <p:commandButton type="submit" value="Remove" icon="pi pi-check" iconPos="right" 
+                                                         process="@form" update="top-main-menubar remove-ss-from-class-pannel"
+                                                         actionListener="#{classgroupProfile.removeClassMember()}"/> 
                                     </div>
                                     <f:facet name="options">
                                         <p:menu>

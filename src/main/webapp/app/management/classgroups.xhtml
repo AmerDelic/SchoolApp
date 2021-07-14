@@ -86,7 +86,11 @@
                                     </p:column>
                                 </p:dataTable>
                                 <p:contextMenu for="all-classgroup-table">
-                                    <p:menuitem value="To class page .." icon="pi pi-angle-right"/>
+                                    <p:menuitem value="To class page .." icon="pi pi-angle-right" process="@form" action="#{classgroupController.forwardToSelectedClassHome()}">
+                                        
+                                      
+                                       
+                                    </p:menuitem>
                                     <p:menuitem value="Delete" icon="pi pi-times" process="@form" update="create-class-panel all-classes-table-panel" 
                                                 actionListener="#{classgroupController.deleteClassgroup()}">
                                         <p:confirm header="Delete class" message="Are you sure?" icon="ui-icon-alert" />  
@@ -158,7 +162,7 @@
                                     </div>
                                     <div class="ui-g-12">
                                         <p:commandButton type="submit" value="Create" icon="pi pi-check" iconPos="right" 
-                                                         process="@form" update="create-class-panel all-classes-table-panel" 
+                                                         process="@form" update="create-class-panel all-classes-table-panel add-student-to-class-pannel" 
                                                          actionListener="#{classgroupController.createClassgroup()}"/> 
                                     </div>
                                     <f:facet name="options">

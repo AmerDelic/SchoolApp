@@ -1,4 +1,6 @@
 package com.amerd.schoolapp.controllers;
+
+import com.amerd.schoolapp.controllers.navigation.ViewNavigator;
 import com.amerd.schoolapp.entities.Classgroup;
 import com.amerd.schoolapp.entities.Student;
 import com.amerd.schoolapp.entities.StudentClassgroup;
@@ -8,6 +10,8 @@ import com.amerd.schoolapp.entities.facades.local.StudentFacadeLocal;
 import com.amerd.schoolapp.util.constants.UIMessages;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -19,53 +23,76 @@ import javax.transaction.Transactional;
 @RequestScoped
 @Named
 public class ClassgroupProfile implements Serializable {
-private static final long serialVersionUID = 1L;
 
-     private Classgroup _currentClassgroup;
-     private List<Student> _classMembers;
-     private Student _selectedMember;
-     
+    private static final long serialVersionUID = 1L;
+
+    private Classgroup _currentClassgroup;
+    private List<Student> _classMembers;
+    private Student _selectedMember;
+
     @Inject
     FacesContext facesContext;
     @Inject
     StudentFacadeLocal studentFacade;
-     @Inject
+    @Inject
     ClassgroupFacadeLocal classFacade;
-     @Inject
+    @Inject
     StudentClassgroupFacadeLocal classMemberFacade;
-     
+    @Inject
+    ViewNavigator nav;
+
     public ClassgroupProfile() {
     }
-    
+
+    // Problem ... When do these get called exactly?
     @PostConstruct
     public void onInit() {
-        var testGroup = classFacade.findById(23).get();  
-        this._classMembers = classFacade.getClassMembers(testGroup);
-//        if(null != this._currentClassgroup) {
-//            this._classMembers = classFacade.getClassMembers(_currentClassgroup);
-//        }
+        Integer intId = null;
+        String testId = (String) facesContext.getAttributes().get("facesAtr");
+        if ((null != testId) && !(testId.isBlank())) {
+            nav.setClassgroupId(testId);
+            intId = Integer.valueOf(testId);
+            this._currentClassgroup = classFacade.findById(intId).get();
+            this._classMembers = classFacade.getClassMembers(this._currentClassgroup);
+        }
+        // if I remove the 'else' 
+        else {
+            testId = nav.getClassgroupId();
+            intId = Integer.valueOf(testId);
+            this._currentClassgroup = classFacade.findById(intId).get();
+            this._classMembers = classFacade.getClassMembers(this._currentClassgroup);
+        }
     }
-    
-     @Transactional
+
+    @Transactional
     public void removeClassMember() {
         if (this._currentClassgroup != null && this._selectedMember != null) {
-            StudentClassgroup studentMember = _selectedMember.getStudentClassgroup();
-            studentFacade.removeClassgroupReference(_selectedMember);
-            classFacade.removeMemberReference(_currentClassgroup, studentMember);
-            classMemberFacade.remove(studentMember);
-            setUImessage(FacesMessage.SEVERITY_INFO, _selectedMember.toString() + " removed from " + this._currentClassgroup.toString());
-            refreshTableData();
+            Optional<Student> studentOpt = studentFacade.findById(_selectedMember.getId());
+            if (studentOpt.isPresent()) {
+                Student student = studentOpt.get();
+                StudentClassgroup studentMembership = student.getStudentClassgroup();
+                studentFacade.removeClassgroupReference(student);
+                classFacade.removeMemberReference(_currentClassgroup, studentMembership);
+                classMemberFacade.remove(studentMembership);
+                setUImessage(FacesMessage.SEVERITY_INFO, _selectedMember.toString() + " removed from " + this._currentClassgroup.toString());
+                /*
+                    If I don't refresh here, the table doesn't update,
+                    even though the onInit()should do that.
+                */
+                refreshTableData();
+            }
         } else {
+            System.err.println("Something is null in removeClassMember");
             setUImessage(FacesMessage.SEVERITY_WARN, UIMessages.MISSING_FORM_INPUT);
         }
     }
-    
-    private void setUImessage(FacesMessage.Severity severity, String msg) {
-        facesContext.addMessage(null, new FacesMessage(severity, msg, null));
-    }
+
+    // Problem : not sure when and why I need this..but I do need it.
     private void refreshTableData() {
-        
-        //this._classMembers = classFacade.getClassMembers(_currentClassgroup);
+        String testId = nav.getClassgroupId();
+        Integer intId = Integer.valueOf(testId);
+        this._currentClassgroup = classFacade.findById(intId).get();
+        this._classMembers = classFacade.getClassMembers(this._currentClassgroup);
     }
 
     public Classgroup getCurrentClassgroup() {
@@ -92,6 +119,7 @@ private static final long serialVersionUID = 1L;
         this._selectedMember = _selectedMember;
     }
     
-    
-    
+    private void setUImessage(FacesMessage.Severity severity, String msg) {
+        facesContext.addMessage(null, new FacesMessage(severity, msg, null));
+    }
 }

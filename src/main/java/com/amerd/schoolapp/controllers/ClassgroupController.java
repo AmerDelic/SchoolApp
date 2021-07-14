@@ -1,5 +1,6 @@
 package com.amerd.schoolapp.controllers;
 
+import com.amerd.schoolapp.controllers.navigation.ViewNavigator;
 import com.amerd.schoolapp.entities.Classgroup;
 import com.amerd.schoolapp.entities.Classroom;
 import com.amerd.schoolapp.entities.Schoolstaff;
@@ -11,15 +12,21 @@ import com.amerd.schoolapp.entities.facades.local.ClassroomFacadeLocal;
 import com.amerd.schoolapp.entities.facades.local.StudentClassgroupFacadeLocal;
 import com.amerd.schoolapp.entities.facades.local.StudentFacadeLocal;
 import com.amerd.schoolapp.util.constants.UIMessages;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 @RequestScoped
@@ -48,6 +55,8 @@ public class ClassgroupController extends StaffController implements Serializabl
     StudentFacadeLocal studentFacade;
     @Inject
     StudentClassgroupFacadeLocal classMemberFacade;
+    @Inject
+    ViewNavigator nav;
 
     public ClassgroupController() {
     }
@@ -102,7 +111,6 @@ public class ClassgroupController extends StaffController implements Serializabl
         }
     }
 
-    
     @Transactional
     public void addClassMember() {
         if (null != this._selectedStudent && null != this._selectedClassgroup) {
@@ -118,7 +126,6 @@ public class ClassgroupController extends StaffController implements Serializabl
         }
     }
 
-   
     // TODO: remove student from classgroup.
     public List<Classgroup> getClassgroups() {
         return _classgroups;
@@ -215,7 +222,9 @@ public class ClassgroupController extends StaffController implements Serializabl
     public void setSelectedMember(Student _selectedMember) {
         this._selectedMember = _selectedMember;
     }
-    
-   
 
+    public String forwardToSelectedClassHome() {
+        facesContext.getAttributes().put("facesAtr", this._selectedClassgroup.getIdString());
+        return nav.toHomeroomPage();
+    }
 }

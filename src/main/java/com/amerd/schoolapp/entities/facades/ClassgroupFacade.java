@@ -6,6 +6,7 @@ import com.amerd.schoolapp.entities.facades.abstracts.AbstractFacade;
 import com.amerd.schoolapp.entities.Classgroup;
 import com.amerd.schoolapp.entities.Student;
 import com.amerd.schoolapp.entities.StudentClassgroup;
+import com.amerd.schoolapp.entities.facades.local.StudentFacadeLocal;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Optional;
@@ -26,6 +27,8 @@ public class ClassgroupFacade extends AbstractFacade<Classgroup> implements Clas
     
     @Inject
     FacesContext facesContext;
+    @Inject
+    StudentFacadeLocal studentFacade;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -57,6 +60,7 @@ public class ClassgroupFacade extends AbstractFacade<Classgroup> implements Clas
             Classgroup theClass = classOpt.get();
             List<StudentClassgroup> members = theClass.getStudentClassgroupList();
             List<Student> students = members.stream().map(m -> m.getStudent()).collect(Collectors.toList());
+            students.stream().forEach(studentFacade::edit);
             return students;
         } else {
             setUImessage(FacesMessage.SEVERITY_ERROR, "Couldn't locate class in db");
