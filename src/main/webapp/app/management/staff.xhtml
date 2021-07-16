@@ -23,7 +23,7 @@
                         </div>
                         <p:megaMenu  orientation="horizontal" autoDisplay="false">
                             <p:submenu label="Logged in as #{loginController.currentUser.appUsername}" icon="pi pi-sign-out">
-                                 <p:column>
+                                <p:column>
                                     <p:submenu >
                                         <p:menuitem value="Log out" process="@form" action="#{loginController.logout()}"/>
                                     </p:submenu>
@@ -64,49 +64,48 @@
                     </h:form>
                 </p:panel>
                 <p:sticky target="top-main-menubar"/>
-
-                <p:panel id="all-staff-table-panel" style="margin: 5vw 7vw 7vw 7vw">
-                    <f:facet name="header">
-                        <h3 style="text-align: center">All School Staff</h3> 
-                    </f:facet>
-                    <h:form>
-                        <div  style="margin: 0vw 20vw 0vw 20vw">
-                            <p:messages id="table-action-msg" closable="true"/>
-                        </div>
-                        <p:dataTable id="all-staff-table" value="#{staffController.allstaff}" var="staff" rows="10"
-                                     rowKey="#{staff.id}"
-                                     paginator="true"
-                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                                     rowsPerPageTemplate="5,10,{ShowAll|'All'}"
-                                     paginatorPosition="bottom"
-                                     selection="#{staffController.selectedStaff}"
-                                     selectionMode="single" allowUnsorting="true" sortMode="single">
-                            <p:column sortBy="#{staff.id}" headerText="ID">
-                                <h:outputText value="#{staff.id}"/>
-                            </p:column>
-                            <p:column sortBy="#{staff.name}" headerText="Name">
-                                <h:outputText value="#{staff.name}"/>
-                            </p:column>
-                            <p:column sortBy="#{staff.surname}" headerText="Surname">
-                                <h:outputText value="#{staff.surname}"/>
-                            </p:column>
-                            <p:column sortBy="#{staff.email}" headerText="email">
-                                <h:outputText value="#{staff.email}"/>
-                            </p:column>
-                        </p:dataTable>
-                        <p:contextMenu for="all-staff-table">
-                            <p:menuitem value="Delete" update="all-staff-table-panel" icon="pi pi-times" actionListener="#{staffController.deleteStaff()}">
-                                <p:confirm header="Delete staff" message="Are you sure?" icon="ui-icon-alert" />  
-                            </p:menuitem>
-                        </p:contextMenu>
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
-                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />  
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />  
-                        </p:confirmDialog>
-                    </h:form>
-                </p:panel>
-                <br/>
+                <div class="ui-g"> 
+                    <div class="ui-g-12">
+                        <p:panel id="all-staff-table-panel" header="All School Staff">
+                            <h:form>
+                                <div  style="margin: 0vw 20vw 0vw 20vw">
+                                    <p:messages id="table-action-msg" closable="true"/>
+                                </div>
+                                <p:dataTable id="all-staff-table" value="#{staffController.allstaff}" var="staff" rows="10"
+                                             rowKey="#{staff.id}"
+                                             paginator="true"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                             rowsPerPageTemplate="5,10,{ShowAll|'All'}"
+                                             paginatorPosition="bottom"
+                                             selection="#{staffController.selectedStaff}"
+                                             selectionMode="single" allowUnsorting="true" sortMode="single">
+                                    <p:column sortBy="#{staff.id}" headerText="ID">
+                                        <h:outputText value="#{staff.id}"/>
+                                    </p:column>
+                                    <p:column sortBy="#{staff.name}" headerText="Name">
+                                        <h:outputText value="#{staff.name}"/>
+                                    </p:column>
+                                    <p:column sortBy="#{staff.surname}" headerText="Surname">
+                                        <h:outputText value="#{staff.surname}"/>
+                                    </p:column>
+                                    <p:column sortBy="#{staff.email}" headerText="email">
+                                        <h:outputText value="#{staff.email}"/>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:contextMenu for="all-staff-table">
+                                    <p:menuitem value="Delete" update="all-staff-table-panel" icon="pi pi-times" actionListener="#{staffController.deleteStaff()}">
+                                        <p:confirm header="Delete staff" message="Are you sure?" icon="ui-icon-alert" />  
+                                    </p:menuitem>
+                                </p:contextMenu>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />  
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />  
+                                </p:confirmDialog>
+                            </h:form>
+                        </p:panel>
+                    </div>
+                </div>
             </div>
             <div>
                 <p:panel>

@@ -64,10 +64,8 @@
                 <p:sticky target="top-main-menubar"/>
                 <div class="ui-g">
                     <div class="ui-g-8">
-                        <p:panel id="all-classes-table-panel" style="margin: 1vw auto">
-                            <f:facet name="header">
-                                <h3 style="text-align: center">All Classes</h3> 
-                            </f:facet>
+                        <p:panel id="all-classes-table-panel" header="Classes">
+                           
                             <h:form>
                                 <div  style="margin: auto">
                                     <p:messages id="table-action-msg" closable="true"/>
@@ -104,7 +102,7 @@
                         </p:panel>
                     </div>
                     <div class="ui-g-4">
-                        <p:panel id="create-class-panel" style="margin: 1vw auto" header="Create Class"  toggleable="true" toggleSpeed="500" collapsed="true"
+                        <p:panel id="create-class-panel" header="Create Class"  toggleable="true" toggleSpeed="500" collapsed="true"
                                  closeSpeed="500" widgetVar="panel">
 
                             <h:form>
@@ -115,7 +113,7 @@
                                     <div class="ui-g-6">
                                         <p:selectOneMenu id="non-head-teacher-list" value="#{classgroupController.selectedTeacher}"
                                                          converter="#{staffConverter}"
-                                                         var="t" panelStyle="width:200px" filter="true" filterMatchMode="startsWith">
+                                                         var="t" panelStyle="width:220px" filter="true" filterMatchMode="startsWith">
                                             <f:selectItems id="available-teachers" 
                                                            value="#{classgroupController.nonHeadTeachers}" 
                                                            var="teacher" 
@@ -150,7 +148,7 @@
                                     </div> 
                                     <div class="ui-g-6">
                                         <p:selectOneMenu id="grade-choice" value="#{classgroupController.selectedGrade}"
-                                                         var="g" panelStyle="width:100px">
+                                                         var="g" panelStyle="width:80px">
                                             <f:selectItems value="#{classgroupController.grades}" var="grade" itemLabel="#{grade.toString()}" itemValue="#{grade}"/>
                                             <p:column>
                                                 <f:facet name="header">
@@ -175,7 +173,7 @@
                                 </div>
                             </h:form>
                         </p:panel>
-                        <p:panel id="add-student-to-class-pannel" style="margin: 1vw auto" header="Add student to class"  toggleable="true" toggleSpeed="500" collapsed="true"
+                        <p:panel id="add-student-to-class-pannel" header="Add student to class"  toggleable="true" toggleSpeed="500" collapsed="true"
                                  closeSpeed="500" widgetVar="panel2">
                             <h:form>
                                 <div class="ui-g">
@@ -202,7 +200,7 @@
                                     <div class="ui-g-12">
                                         <p:selectOneMenu id="classgroup-choice" value="#{classgroupController.selectedClassgroup}"
                                                          converter="#{classgroupConverter}" 
-                                                         var="cg" panelStyle="width:200px" filter="true" filterMatchMode="startsWith">
+                                                         var="cg" panelStyle="width: 400px" filter="true" filterMatchMode="startsWith">
                                             <f:selectItems value="#{classgroupController.classgroups}" var="classgroup" 
                                                            itemLabel="#{classgroup.toString()}" itemValue="#{classgroup}"/>
                                             <p:column>

@@ -3,7 +3,6 @@
     font-family: "Optima", sans-serif;
 }
 
-
 .mainContentsBox {
     box-sizing: border-box;
     display: block;
@@ -18,35 +17,34 @@
 
 }
 
-.ui-button {
-    color: #ffffff;
+#login-grid-section {
+    background-image: linear-gradient(to bottom right, #cce6ff, #ffffff);
+    border: 1px solid rgba(27, 27, 26, 0.18); 
+    border-radius: 15px 50px 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin: 15vw 0vw 0vw 0vw;
 }
 
-
-/* Selects all <p:dataTable>'s */
-#j_idt23, #j_idt24 {
-    margin: 1vw !important;
-}
-/* teachers page datatable header*/
-#j_idt24_header {
-    padding: 0;
-}
-
-#j_idt18_header {
-    padding: 0px;
+#class-info-header {
+    background-image: linear-gradient(to bottom right, #80e5ff, #ccffeb);
+    border: 1px solid rgba(27, 27, 26, 0.18); 
+    border-radius: 15px 50px 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width: 75%;
+    margin: 1vw;
+    color: #666666;
 }
 
 #top-main-menubar_content {
     padding: 0px;
 }
 
-ui-panel ui-widget ui-widget-content ui-corner-all {
-    border: 1px solid black;
-    border-radius: 50px 50px 0px 0px;
-}
-
 .ui-sticky {
     top: 10px !important;
+}
+/* data tables */
+body .ui-panel .ui-panel-content {
+    border-radius: 0px 0px 50px 50px;
 }
 
 /* all datatable column headers */
@@ -57,14 +55,17 @@ body .ui-datatable thead th {
 
 /* all datatable main headers */
 body .ui-panel .ui-panel-titlebar {
+    background-image: linear-gradient(to bottom right, #80e5ff, #ccffeb);
+    margin-top: 1vw;
+    color: #666666;
     border-radius: 50px 50px 0px 0px;
 }
 
-
 /* select all div's of this class' */
-.ui-g div {
+/*.ui-g div {
     text-align: center;
-}
+    border: 1px solid #fafafa;
+}*/
 
 .ui-panel-title{
     vertical-align: middle !important;

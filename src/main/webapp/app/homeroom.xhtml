@@ -62,48 +62,56 @@
                     </h:form>
                 </p:panel>
                 <p:sticky target="top-main-menubar"/>
-                <div class="ui-g">
 
-                    <div class="ui-g-4">
-                        <p:panel id="remove-ss-from-class-pannel" style="margin: 1vw auto" header="Remove student"  toggleable="true" toggleSpeed="500" collapsed="true"
-                                 closeSpeed="500" widgetVar="panel2">
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-2">
+                        <p:panel id="all-student-table-panel" header="Students">
                             <h:form>
-                                <div class="ui-g">
-                                    <div class="ui-g-12">
-                                        <p:outputLabel for="student-choice" value="Student: "/> 
-                                    </div>
-                                    <div class="ui-g-12">
-                                        <p:selectOneMenu id="student-choice" value="#{classgroupProfile.selectedMember}"
-                                                         converter="#{studentConverter}"
-                                                         var="classmember" panelStyle="width:200px" filter="true" filterMatchMode="startsWith">
-                                            <f:selectItems value="#{classgroupProfile.classMembers}" var="student" 
-                                                           itemLabel="#{student.toString()}" 
-                                                           itemValue="#{student}"/>
-                                            <p:column>
-                                                <f:facet name="header">
-                                                    <h:outputText value="Students"/>
-                                                </f:facet>
-                                                <h:outputText value="#{classmember}"/>
-                                            </p:column>
-                                        </p:selectOneMenu>
-                                    </div> 
-                                    <div class="ui-g-12">
-                                        <p:commandButton type="submit" value="Remove" icon="pi pi-check" iconPos="right" 
-                                                         process="@form" update="top-main-menubar remove-ss-from-class-pannel"
-                                                         actionListener="#{classgroupProfile.removeClassMember()}"/> 
-                                    </div>
-                                    <f:facet name="options">
-                                        <p:menu>
-                                            <p:submenu label="Settings">
-                                                <p:menuitem value="Toggle" url="#" icon="pi pi-clone" onclick="PF('panel2').toggle()"/>
-                                            </p:submenu>
-                                        </p:menu>
-                                    </f:facet>
+                                <div style="margin: 0">
+                                    <p:messages id="table-action-msg" closable="true"/>
                                 </div>
+                                <p:dataTable id="all-students-table" value="#{classgroupProfile.classMembers}" var="student" rows="10"
+                                             rowKey="#{student.id}"
+                                             paginator="true"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                             rowsPerPageTemplate="5,10,{ShowAll|'All'}"
+                                             paginatorPosition="bottom"
+                                             selection="#{classgroupProfile.selectedMember}"
+                                             selectionMode="single" allowUnsorting="true" sortMode="single">
+
+                                    <p:column sortBy="#{student.name}" headerText="Name">
+                                        <h:outputText value="#{student.name}"/>
+                                    </p:column>
+                                    <p:column sortBy="#{student.surname}" headerText="Surname">
+                                        <h:outputText value="#{student.surname}"/>
+                                    </p:column>
+
+                                </p:dataTable>
+                                <p:contextMenu for="all-students-table">
+                                    <p:menuitem value="Delete" update="all-students-table table-action-msg" icon="pi pi-times" 
+                                                actionListener="#{classgroupProfile.removeClassMember()}">
+                                        <p:confirm header="Delete student" message="Are you sure?" icon="ui-icon-alert" />
+                                    </p:menuitem>
+                                </p:contextMenu>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />  
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />  
+                                </p:confirmDialog>
                             </h:form>
                         </p:panel>
                     </div>
+                    <div class="ui-g-12 ui-md-10 ui-g-nopad">
+                        <div class="ui-g-12" id="class-info-header" style="text-align: left"> 
+                            <h3 style="margin: 1vw">Class: #{classgroupProfile.currentClassgroup.toString()}</h3> 
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        Footer
+                    </div>
                 </div>
+
+
             </div>
             <div>
                 <p:panel>

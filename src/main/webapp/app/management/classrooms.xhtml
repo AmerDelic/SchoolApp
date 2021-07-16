@@ -21,7 +21,7 @@
                         </div>
                         <p:megaMenu  orientation="horizontal" autoDisplay="false">
                             <p:submenu label="Logged in as #{loginController.currentUser.appUsername}" icon="pi pi-sign-out">
-                                 <p:column>
+                                <p:column>
                                     <p:submenu >
                                         <p:menuitem value="Log out" process="@form" action="#{loginController.logout()}"/>
                                     </p:submenu>
@@ -51,7 +51,7 @@
                                     </p:submenu>
                                 </p:column>
                             </p:submenu>
-                           <p:submenu label="Classes">
+                            <p:submenu label="Classes">
                                 <p:column>
                                     <p:submenu label="Classes">
                                         <p:menuitem value="All" actionListener="#{viewNavigator.toClassgroupsPage()}" process="@form" update="nav-error-msges"/>
@@ -62,28 +62,28 @@
                     </h:form>
                 </p:panel>
                 <p:sticky target="top-main-menubar"/>
-                <p:panel style="margin: 5vw 7vw 7vw 7vw">
-                    <f:facet name="header">
-                        <h3 style="text-align: center">All Classrooms</h3> 
-                    </f:facet>
-                    <p:dataTable id="all-classrooms-table" value="#{classroomController.classrooms}" var="classroom" rows="10"
-                                 paginator="true"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                                 rowsPerPageTemplate="5,10,{ShowAll|'All'}" 
-                                 paginatorPosition="bottom">
-                        <p:column headerText="ID">
-                            <h:outputText value="#{classroom.id}"/>
-                        </p:column>
-                        <p:column headerText="Code">
-                            <h:outputText value="#{classroom.roomCode}"/>
-                        </p:column>
-                        <p:column headerText="AV">
-                            <h:outputText value="#{classroom.isAvEquipped()}"/>
-                        </p:column>
-                    </p:dataTable>
-                </p:panel>
-                <br/>
+                <div class="ui-g"> 
+                    <div class="ui-g-12">
+                        <p:panel header="All Classrooms">
+                            <p:dataTable id="all-classrooms-table" value="#{classroomController.classrooms}" var="classroom" rows="10"
+                                         paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                         rowsPerPageTemplate="5,10,{ShowAll|'All'}" 
+                                         paginatorPosition="bottom">
+                                <p:column headerText="ID">
+                                    <h:outputText value="#{classroom.id}"/>
+                                </p:column>
+                                <p:column headerText="Code">
+                                    <h:outputText value="#{classroom.roomCode}"/>
+                                </p:column>
+                                <p:column headerText="AV">
+                                    <h:outputText value="#{classroom.isAvEquipped()}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                    </div>
+                </div>
             </div>
             <div>
                 <p:panel>

@@ -24,7 +24,7 @@
                         </div>
                         <p:megaMenu  orientation="horizontal" autoDisplay="false">
                             <p:submenu label="Logged in as #{loginController.currentUser.appUsername}" icon="pi pi-sign-out">
-                                 <p:column>
+                                <p:column>
                                     <p:submenu >
                                         <p:menuitem value="Log out" process="@form" action="#{loginController.logout()}"/>
                                     </p:submenu>
@@ -65,46 +65,46 @@
                     </h:form>
                 </p:panel>
                 <p:sticky target="top-main-menubar"/>
-                <p:panel id="all-user-table-panel" style="margin: 5vw 7vw 7vw 7vw">
-                    <f:facet name="header">
-                        <h3 style="text-align: center">All users </h3> 
-                    </f:facet>
-                    <h:form>
-                        <div  style="margin: 0vw 20vw 0vw 20vw">
-                            <p:messages id="table-action-msg" closable="true"/>
-                        </div>
-                        <p:dataTable id="all-users-table" value="#{usersController.users}" var="user" rows="10"
-                                     rowKey="#{user.id}"
-                                     paginator="true"
-                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
-                                     rowsPerPageTemplate="5,10,{ShowAll|'All'}"
-                                     paginatorPosition="bottom"
-                                     selection="#{usersController.selectedUser}"
-                                     selectionMode="single" allowUnsorting="true" sortMode="single">
-                            <p:column sortBy="#{user.id}" headerText="ID">
-                                <h:outputText value="#{user.id}"/>
-                            </p:column>
-                            <p:column sortBy="#{user.appUsername}" headerText="Username">
-                                <h:outputText value="#{user.appUsername}"/>
-                            </p:column>
-                            <p:column sortBy="#{user.appPrivilege}" headerText="Privilege">
-                                <h:outputText value="#{user.appPrivilege}"/>
-                            </p:column>
-                        </p:dataTable>
-                        <p:contextMenu for="all-users-table">
-                            <p:menuitem value="Delete" update="all-user-table-panel" icon="pi pi-times" 
-                                        actionListener="#{usersController.deleteUser()}">
-                                <p:confirm header="Delete user" message="Are you sure?" icon="ui-icon-alert" />
-                            </p:menuitem>
-                        </p:contextMenu>
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
-                            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />  
-                            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />  
-                        </p:confirmDialog>
-                    </h:form>
-                </p:panel>
-                <br/>
+                <div class="ui-g"> 
+                    <div class="ui-g-12">
+                        <p:panel id="all-user-table-panel" header="All users">
+                            <h:form>
+                                <div  style="margin: 0vw 20vw 0vw 20vw">
+                                    <p:messages id="table-action-msg" closable="true"/>
+                                </div>
+                                <p:dataTable id="all-users-table" value="#{usersController.users}" var="user" rows="10"
+                                             rowKey="#{user.id}"
+                                             paginator="true"
+                                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
+                                             rowsPerPageTemplate="5,10,{ShowAll|'All'}"
+                                             paginatorPosition="bottom"
+                                             selection="#{usersController.selectedUser}"
+                                             selectionMode="single" allowUnsorting="true" sortMode="single">
+                                    <p:column sortBy="#{user.id}" headerText="ID">
+                                        <h:outputText value="#{user.id}"/>
+                                    </p:column>
+                                    <p:column sortBy="#{user.appUsername}" headerText="Username">
+                                        <h:outputText value="#{user.appUsername}"/>
+                                    </p:column>
+                                    <p:column sortBy="#{user.appPrivilege}" headerText="Privilege">
+                                        <h:outputText value="#{user.appPrivilege}"/>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:contextMenu for="all-users-table">
+                                    <p:menuitem value="Delete" update="all-user-table-panel" icon="pi pi-times" 
+                                                actionListener="#{usersController.deleteUser()}">
+                                        <p:confirm header="Delete user" message="Are you sure?" icon="ui-icon-alert" />
+                                    </p:menuitem>
+                                </p:contextMenu>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">  
+                                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />  
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />  
+                                </p:confirmDialog>
+                            </h:form>
+                        </p:panel>
+                    </div>
+                </div>
             </div>
             <div>
                 <p:panel>

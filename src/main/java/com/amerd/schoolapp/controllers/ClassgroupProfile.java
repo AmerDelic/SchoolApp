@@ -55,7 +55,7 @@ public class ClassgroupProfile implements Serializable {
             this._currentClassgroup = classFacade.findById(intId).get();
             this._classMembers = classFacade.getClassMembers(this._currentClassgroup);
         }
-        // if I remove the 'else' 
+        // if I remove the 'else', removeClassMember() doesn't work. 
         else {
             testId = nav.getClassgroupId();
             intId = Integer.valueOf(testId);
