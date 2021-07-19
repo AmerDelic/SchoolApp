@@ -26,7 +26,7 @@
                             <p:submenu label="Logged in as #{loginController.currentUser.appUsername}" icon="pi pi-sign-out">
                                 <p:column>
                                     <p:submenu >
-                                        <p:menuitem value="Log out" process="@form" action="#{loginController.logout()}"/>
+                                        <p:menuitem value="Log out" process="@form" actionListener="#{loginController.logout()}"/>
                                     </p:submenu>
                                 </p:column>
                             </p:submenu>
@@ -128,7 +128,7 @@
                     </h:form>
                     <f:facet name="footer"> 
                         <h:form>
-                            <p:commandButton styleClass="rounded-button ui-button-danger" value="Log out" action="#{loginController.logout()}"/>
+                            <p:commandButton styleClass="rounded-button ui-button-danger" value="Log out" actionListener="#{loginController.logout()}"/>
                         </h:form>
                     </f:facet>
                 </p:panel>

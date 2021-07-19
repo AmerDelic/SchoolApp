@@ -45,6 +45,8 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>student</role-name>
+            <role-name>staff</role-name>
+            <role-name>superadmin</role-name>
         </auth-constraint>
     </security-constraint>
     

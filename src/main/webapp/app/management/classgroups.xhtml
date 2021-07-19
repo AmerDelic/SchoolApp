@@ -23,7 +23,7 @@
                             <p:submenu label="Logged in as #{loginController.currentUser.appUsername}" icon="pi pi-sign-out">
                                 <p:column>
                                     <p:submenu >
-                                        <p:menuitem value="Log out" process="@form" action="#{loginController.logout()}"/>
+                                        <p:menuitem value="Log out" process="@form" actionListener="#{loginController.logout()}"/>
                                     </p:submenu>
                                 </p:column>
                             </p:submenu>
@@ -84,11 +84,8 @@
                                     </p:column>
                                 </p:dataTable>
                                 <p:contextMenu for="all-classgroup-table">
-                                    <p:menuitem value="To class page .." icon="pi pi-angle-right" process="@form" action="#{classgroupController.forwardToSelectedClassHome()}">
-                                        
-                                      
-                                       
-                                    </p:menuitem>
+                                    <p:menuitem value="To class page .." icon="pi pi-angle-right" process="@form" 
+                                                actionListener="#{classgroupController.toSelectedClassHome()}"/>
                                     <p:menuitem value="Delete" icon="pi pi-times" process="@form" update="create-class-panel all-classes-table-panel" 
                                                 actionListener="#{classgroupController.deleteClassgroup()}">
                                         <p:confirm header="Delete class" message="Are you sure?" icon="ui-icon-alert" />  
@@ -234,7 +231,7 @@
 
                     <f:facet name="footer"> 
                         <h:form>
-                            <p:commandButton styleClass="rounded-button ui-button-danger" value="Log out" action="#{loginController.logout()}"/>
+                            <p:commandButton styleClass="rounded-button ui-button-danger" value="Log out" actionListener="#{loginController.logout()}"/>
                         </h:form>
                     </f:facet>
                 </p:panel>

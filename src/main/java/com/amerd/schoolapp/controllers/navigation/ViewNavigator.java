@@ -1,23 +1,21 @@
 package com.amerd.schoolapp.controllers.navigation;
 
-import com.amerd.schoolapp.entities.Classgroup;
 import com.amerd.schoolapp.entities.facades.local.ClassgroupFacadeLocal;
 import com.amerd.schoolapp.util.constants.UIMessages;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@ViewScoped
+@ApplicationScoped
 @Named
 public class ViewNavigator implements Serializable {
 
@@ -25,6 +23,8 @@ public class ViewNavigator implements Serializable {
 
     private String role;
     private String classgroupId;
+    private String studentId;
+    
     @Inject
     FacesContext facesContext;
     @Inject
@@ -35,17 +35,11 @@ public class ViewNavigator implements Serializable {
 
     @PostConstruct
     public void onInit() {
-        this.role = null;
-        if (getExternalContext().isUserInRole("superadmin")) {
-            this.role = "superadmin";
-        } else if (getExternalContext().isUserInRole("staff")) {
-            this.role = "staff";
-        } else {
-            this.role = "student";
-        }
+        refreshUserRole();
     }
 
     public void toStudentsPage() {
+        refreshUserRole();
         try {
             switch (role) {
                 case "student":
@@ -64,6 +58,7 @@ public class ViewNavigator implements Serializable {
     }
 
     public void toUsersPage() {
+        refreshUserRole();
         try {
             switch (role) {
                 case "student":
@@ -82,6 +77,7 @@ public class ViewNavigator implements Serializable {
     }
 
     public void toSubjectsPage() {
+        refreshUserRole();
         try {
             switch (role) {
                 case "student":
@@ -100,6 +96,7 @@ public class ViewNavigator implements Serializable {
     }
 
     public void toStaffPage() {
+        refreshUserRole();
         try {
             switch (role) {
                 case "student":
@@ -118,16 +115,17 @@ public class ViewNavigator implements Serializable {
     }
 
     public void toProfilePage() {
+        refreshUserRole();
         try {
             switch (role) {
                 case "student":
                     redirectToProfile();
                     break;
                 case "staff":
-                    setUImessage(FacesMessage.SEVERITY_WARN, UIMessages.STUDENT_ONLY);
+                    redirectToProfile();
                     break;
                 case "superadmin":
-                    setUImessage(FacesMessage.SEVERITY_WARN, UIMessages.STUDENT_ONLY);
+                    redirectToProfile();
                     break;
             }
         } catch (IOException ex) {
@@ -136,6 +134,7 @@ public class ViewNavigator implements Serializable {
     }
 
     public void toTeachersPage() {
+        refreshUserRole();
         try {
             switch (role) {
                 case "student":
@@ -154,6 +153,7 @@ public class ViewNavigator implements Serializable {
     }
 
     public void toClassroomsPage() {
+        refreshUserRole();
         try {
             switch (role) {
                 case "student":
@@ -172,6 +172,7 @@ public class ViewNavigator implements Serializable {
     }
 
     public void toClassgroupsPage() {
+        refreshUserRole();
         try {
             switch (role) {
                 case "student":
@@ -190,6 +191,7 @@ public class ViewNavigator implements Serializable {
     }
 
     public void directFromLogin() {
+        refreshUserRole();
         try {
             switch (role) {
                 case "student":
@@ -207,13 +209,36 @@ public class ViewNavigator implements Serializable {
         }
     }
     
-    // gonna inject this into ClassgroupController
-    public String toHomeroomPage() {
-        return "/app/homeroom.xhtml";
-       
+    public void toHomeroomPage() {
+        refreshUserRole();
+        try {
+            switch (role) {
+                case "student":
+                    setUImessage(FacesMessage.SEVERITY_WARN, UIMessages.NO_PERMISSION_WARN);
+                    break;
+                case "staff":
+                    redirectToHomeroom();
+                    break;
+                case "superadmin":
+                    redirectToHomeroom();
+                    break;
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ViewNavigator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+  
+    public void toLoginPage() {
+        refreshUserRole();
+        try {
+            redirectToLogin();
+        } catch (IOException ex) {
+            Logger.getLogger(ViewNavigator.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void refreshPage() {
+        refreshUserRole();
         try {
             getExternalContext().redirect(getExternalContext().getRequestContextPath() + facesContext.getViewRoot().getViewId());
         } catch (IOException ex) {
@@ -223,6 +248,18 @@ public class ViewNavigator implements Serializable {
 
     private ExternalContext getExternalContext() {
         return facesContext.getExternalContext();
+    }
+    
+    private void refreshUserRole() {
+        if (getExternalContext().isUserInRole("superadmin")) {
+            this.role = "superadmin";
+        } else if (getExternalContext().isUserInRole("staff")) {
+            this.role = "staff";
+        } else if (getExternalContext().isUserInRole("student")){
+            this.role = "student";
+        } else {
+            this.role = "No User Role";
+        }
     }
 
     public String getRole() {
@@ -239,6 +276,14 @@ public class ViewNavigator implements Serializable {
 
     public void setClassgroupId(String classgroupId) {
         this.classgroupId = classgroupId;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     private void redirectToProfile() throws IOException {
@@ -273,7 +318,15 @@ public class ViewNavigator implements Serializable {
     private void redirectToClassgroups() throws IOException {
         getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/app/management/classgroups.xhtml");
     }
-
+    
+    private void redirectToHomeroom() throws IOException {
+        getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/app/homeroom.xhtml");
+    }
+    
+    private void redirectToLogin() throws IOException {
+        getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/login.xhtml");
+    }
+    
     private void setUImessage(Severity severity, String msg) {
         facesContext.addMessage(null, new FacesMessage(severity, msg, null));
     }

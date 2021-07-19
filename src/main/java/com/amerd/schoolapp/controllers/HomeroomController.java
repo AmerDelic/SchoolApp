@@ -10,7 +10,6 @@ import com.amerd.schoolapp.entities.facades.local.StudentFacadeLocal;
 import com.amerd.schoolapp.util.constants.UIMessages;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -22,7 +21,7 @@ import javax.transaction.Transactional;
 
 @RequestScoped
 @Named
-public class ClassgroupProfile implements Serializable {
+public class HomeroomController implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,27 +40,12 @@ public class ClassgroupProfile implements Serializable {
     @Inject
     ViewNavigator nav;
 
-    public ClassgroupProfile() {
+    public HomeroomController() {
     }
 
-    // Problem ... When do these get called exactly?
     @PostConstruct
     public void onInit() {
-        Integer intId = null;
-        String testId = (String) facesContext.getAttributes().get("facesAtr");
-        if ((null != testId) && !(testId.isBlank())) {
-            nav.setClassgroupId(testId);
-            intId = Integer.valueOf(testId);
-            this._currentClassgroup = classFacade.findById(intId).get();
-            this._classMembers = classFacade.getClassMembers(this._currentClassgroup);
-        }
-        // if I remove the 'else', removeClassMember() doesn't work. 
-        else {
-            testId = nav.getClassgroupId();
-            intId = Integer.valueOf(testId);
-            this._currentClassgroup = classFacade.findById(intId).get();
-            this._classMembers = classFacade.getClassMembers(this._currentClassgroup);
-        }
+        refreshTableData();
     }
 
     @Transactional
@@ -75,24 +59,20 @@ public class ClassgroupProfile implements Serializable {
                 classFacade.removeMemberReference(_currentClassgroup, studentMembership);
                 classMemberFacade.remove(studentMembership);
                 setUImessage(FacesMessage.SEVERITY_INFO, _selectedMember.toString() + " removed from " + this._currentClassgroup.toString());
-                /*
-                    If I don't refresh here, the table doesn't update,
-                    even though the onInit()should do that.
-                */
                 refreshTableData();
             }
         } else {
-            System.err.println("Something is null in removeClassMember");
             setUImessage(FacesMessage.SEVERITY_WARN, UIMessages.MISSING_FORM_INPUT);
         }
     }
 
-    // Problem : not sure when and why I need this..but I do need it.
     private void refreshTableData() {
-        String testId = nav.getClassgroupId();
-        Integer intId = Integer.valueOf(testId);
-        this._currentClassgroup = classFacade.findById(intId).get();
-        this._classMembers = classFacade.getClassMembers(this._currentClassgroup);
+       String selectedClassId = nav.getClassgroupId();
+        if ((null != selectedClassId) && !(selectedClassId.isBlank())) {
+           Integer intId = Integer.valueOf(selectedClassId);
+            this._currentClassgroup = classFacade.findById(intId).get();
+            this._classMembers = classFacade.getClassMembers(this._currentClassgroup);
+        }
     }
 
     public Classgroup getCurrentClassgroup() {
@@ -117,6 +97,11 @@ public class ClassgroupProfile implements Serializable {
 
     public void setSelectedMember(Student _selectedMember) {
         this._selectedMember = _selectedMember;
+    }
+    
+    public void toSelectedProfile() {
+        nav.setStudentId(_selectedMember.getIdString());
+        nav.toProfilePage();
     }
     
     private void setUImessage(FacesMessage.Severity severity, String msg) {

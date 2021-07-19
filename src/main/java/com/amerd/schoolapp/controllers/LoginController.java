@@ -23,13 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotEmpty;
 
-/* Login Issue: 
-    a user logs out -> clicks 'back' once at login screen
-    -> another user logs in, but is redirected to according to the previous user's role 
-        ie. previous user was a 'superadmin', next user is 'staff', 
-        the latter user is redirected to a page they don't have access to and gets the 'Forbidden' msg.
-        If the 2nd user does a refresh before attempitng to log in, there are no issues.
-*/
 
 @RequestScoped
 @Named
@@ -46,15 +39,12 @@ public class LoginController implements Serializable{
     
     @Inject
     AppuserFacadeLocal appuserFacade;
-    
     @Inject
     FacesContext facesContext;
-    
     @Inject
     SecurityContext securityContext;
-    
     @Inject
-    ViewNavigator viewNav;
+    ViewNavigator nav;
 
     public LoginController() {
     }
@@ -114,13 +104,11 @@ public class LoginController implements Serializable{
         this._loginVisible = _loginVisible;
     }
     
-    public void login() {
-        
+    public void login() {    
         if(null != (((HttpServletRequest)getExternalContext().getRequest()).getRemoteUser())) {
-            viewNav.directFromLogin();
+            nav.directFromLogin();
             return;
         }
-      
         switch(processAuthentication()){
             case SEND_CONTINUE:
                 facesContext.responseComplete();
@@ -129,12 +117,12 @@ public class LoginController implements Serializable{
                 facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Credentials", null));
                 break;
             case SUCCESS:
-               viewNav.directFromLogin();
+               nav.directFromLogin();
                break;
         }
     }
     
-    public String logout() {
+    public void logout() {
         try {
             this._username = null;
             this._password = null;
@@ -142,7 +130,8 @@ public class LoginController implements Serializable{
         } catch (ServletException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
-         return "/login.xhtml?faces-redirect=true";
+        
+        nav.toLoginPage();
     }
     
     private AuthenticationStatus processAuthentication(){

@@ -23,7 +23,7 @@
                             <p:submenu label="Logged in as #{loginController.currentUser.appUsername}" icon="pi pi-sign-out">
                                 <p:column>
                                     <p:submenu >
-                                        <p:menuitem value="Log out" process="@form" action="#{loginController.logout()}"/>
+                                        <p:menuitem value="Log out" process="@form" actionListener="#{loginController.logout()}"/>
                                     </p:submenu>
                                 </p:column>
                             </p:submenu>
@@ -70,14 +70,14 @@
                                 <div style="margin: 0">
                                     <p:messages id="table-action-msg" closable="true"/>
                                 </div>
-                                <p:dataTable id="all-students-table" value="#{classgroupProfile.classMembers}" var="student" rows="10"
+                                <p:dataTable id="all-students-table" value="#{homeroomController.classMembers}" var="student" rows="10"
                                              rowKey="#{student.id}"
                                              paginator="true"
                                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                              currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records"
                                              rowsPerPageTemplate="5,10,{ShowAll|'All'}"
                                              paginatorPosition="bottom"
-                                             selection="#{classgroupProfile.selectedMember}"
+                                             selection="#{homeroomController.selectedMember}"
                                              selectionMode="single" allowUnsorting="true" sortMode="single">
 
                                     <p:column sortBy="#{student.name}" headerText="Name">
@@ -89,8 +89,9 @@
 
                                 </p:dataTable>
                                 <p:contextMenu for="all-students-table">
+                                    <p:menuitem value="View profile .." icon="pi pi-times" actionListener="#{homeroomController.toSelectedProfile()}"/>
                                     <p:menuitem value="Delete" update="all-students-table table-action-msg" icon="pi pi-times" 
-                                                actionListener="#{classgroupProfile.removeClassMember()}">
+                                                actionListener="#{homeroomController.removeClassMember()}">
                                         <p:confirm header="Delete student" message="Are you sure?" icon="ui-icon-alert" />
                                     </p:menuitem>
                                 </p:contextMenu>
@@ -103,7 +104,7 @@
                     </div>
                     <div class="ui-g-12 ui-md-10 ui-g-nopad">
                         <div class="ui-g-12" id="class-info-header" style="text-align: left"> 
-                            <h3 style="margin: 1vw">Class: #{classgroupProfile.currentClassgroup.toString()}</h3> 
+                            <h3 style="margin: 1vw">Class: #{homeroomController.currentClassgroup.toString()}</h3> 
                         </div>
                     </div>
                     <div class="ui-g-12">
@@ -118,7 +119,7 @@
 
                     <f:facet name="footer"> 
                         <h:form>
-                            <p:commandButton styleClass="rounded-button ui-button-danger" value="Log out" action="#{loginController.logout()}"/>
+                            <p:commandButton styleClass="rounded-button ui-button-danger" value="Log out" actionListener="#{loginController.logout()}"/>
                         </h:form>
                     </f:facet>
                 </p:panel>

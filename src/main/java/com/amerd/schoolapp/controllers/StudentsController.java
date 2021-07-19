@@ -5,7 +5,6 @@ import com.amerd.schoolapp.entities.Student;
 import com.amerd.schoolapp.entities.StudentClassgroup;
 import com.amerd.schoolapp.entities.Studentmark;
 import com.amerd.schoolapp.entities.facades.local.StudentFacadeLocal;
-import com.amerd.schoolapp.util.constants.UIMessages;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;

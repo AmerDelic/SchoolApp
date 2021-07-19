@@ -40,7 +40,7 @@
                                 <p:outputLabel for="logged-user-name" value="Logged in as: "/>
                                 <p:outputLabel id="logged-user-name" value="#{loginController.username}"/>
                                 <p:commandButton process="@form" update="login-form-panel-1" value="Log Out" 
-                                                 styleClass="rounded-button ui-button-danger" action="#{loginController.logout()}"/>
+                                                 styleClass="rounded-button ui-button-danger" actionListener="#{loginController.logout()}"/>
                                 <p:commandButton process="@form" update="login-form-panel-1" 
                                                  value="Go in" actionListener="#{loginController.login()}" ajax="false"/>
                             </p:panelGrid>
