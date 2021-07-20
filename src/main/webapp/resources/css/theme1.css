@@ -42,9 +42,18 @@
 .ui-sticky {
     top: 10px !important;
 }
-/* data tables */
+/* data tables and panels */
 body .ui-panel .ui-panel-content {
     border-radius: 0px 0px 50px 50px;
+    text-align: center;
+    align-content: center;
+}
+
+
+.all-centered-panel-grid {
+    margin: 0 auto !important;
+    text-align: center;
+    align-content: center;
 }
 
 /* all datatable column headers */
@@ -59,6 +68,7 @@ body .ui-panel .ui-panel-titlebar {
     margin-top: 1vw;
     color: #666666;
     border-radius: 50px 50px 0px 0px;
+    text-align: center;
 }
 
 /* select all div's of this class' */

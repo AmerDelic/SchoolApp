@@ -122,10 +122,14 @@ public class Appuser implements Serializable {
         }
         return true;
     }
+    
+     public String getIdString() {
+        return String.valueOf(id);
+    }
 
     @Override
     public String toString() {
-        return "Appuser[ id=" + id + ", Username="+ appUsername + " ]";
+        return "id: " + id + ", " + appUsername;
     }
     
 }

@@ -2,6 +2,7 @@ package com.amerd.schoolapp.controllers;
 
 import com.amerd.schoolapp.entities.Appuser;
 import com.amerd.schoolapp.entities.facades.local.AppuserFacadeLocal;
+import com.amerd.schoolapp.util.constants.Privilege;
 import com.amerd.schoolapp.util.constants.UIMessages;
 import java.io.Serializable;
 import java.util.List;
@@ -18,7 +19,6 @@ import javax.transaction.Transactional;
 @RequestScoped
 @Named
 public class UsersController implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     private String _username;
@@ -26,13 +26,13 @@ public class UsersController implements Serializable {
     private String _privilege;
     private List<Appuser> _users;
     private Appuser selectedUser;
-
+    private List<Appuser> _genericStaffUsers;
+    private List<Appuser> _genericStudentUsers;
+    
     @Inject
     AppuserFacadeLocal appuserFacadeLocal;
-
     @Inject
     FacesContext facesContext;
-
     @Inject
     Pbkdf2PasswordHash passwordHasher;
 
@@ -64,6 +64,7 @@ public class UsersController implements Serializable {
         } else {
             setUImessage(FacesMessage.SEVERITY_ERROR, UIMessages.SAVE_PROBLEM);
         }
+        refreshTableData();
         return newUser;
     }
 
@@ -109,12 +110,29 @@ public class UsersController implements Serializable {
         this.selectedUser = selectedUser;
     }
 
+    public List<Appuser> getGenericStudentUsers() {
+        return _genericStudentUsers;
+    }
+
+    public void setGenericStudentUsers(List<Appuser> _genericStudentUsers) {
+        this._genericStudentUsers = _genericStudentUsers;
+    }
+    
+    public List<Appuser> getGenericStaffUsers() {
+        return _genericStaffUsers;
+    }
+
+    public void setGenericStaffUsers(List<Appuser> _genericStaffUsers) {
+        this._genericStaffUsers = _genericStaffUsers;
+    }
+
     protected void setUImessage(Severity severity, String msg) {
         facesContext.addMessage(null, new FacesMessage(severity, msg, null));
     }
 
     protected void refreshTableData() {
+        this._genericStaffUsers = appuserFacadeLocal.retrieveGenericUsers(Privilege.STAFF);
+        this._genericStudentUsers = appuserFacadeLocal.retrieveGenericUsers(Privilege.STUDENT);
         this._users = appuserFacadeLocal.findAll();
     }
-    //TODO: conditional navigation: one method here, or in a navigator bean, to let me add paramaters to button actions and navigate that way.
 }

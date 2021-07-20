@@ -5,6 +5,8 @@ import com.amerd.schoolapp.entities.Student;
 import com.amerd.schoolapp.entities.StudentClassgroup;
 import com.amerd.schoolapp.entities.Studentmark;
 import com.amerd.schoolapp.entities.facades.local.StudentFacadeLocal;
+import com.amerd.schoolapp.util.constants.Privilege;
+import com.amerd.schoolapp.util.constants.UIMessages;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -27,6 +29,7 @@ public class StudentsController extends UsersController implements Serializable 
     private List<Student> _students;
     private List<Student> _unassignedStudents;
     private Student selectedStudent;
+    private boolean _isNewUser;
 
     @Inject
     StudentFacadeLocal studentFacade;
@@ -46,13 +49,21 @@ public class StudentsController extends UsersController implements Serializable 
 
     @Transactional
     public void addStudentUser() {
-        setPrivilege("student");
-        Appuser newUser = addUser();
+        Appuser theUser = null;
+        if (this._isNewUser) {
+            setPrivilege(Privilege.STUDENT);
+             theUser = addUser();
+        } else if (null != super.getSelectedUser()) {
+             theUser = super.getSelectedUser();
+        } else {
+            setUImessage(FacesMessage.SEVERITY_ERROR, UIMessages.MISSING_FORM_INPUT);
+            return;
+        }   
         Student newStudent = new Student();
-        newStudent.setAppuserId(newUser);
+        newStudent.setAppuserId(theUser);
         newStudent.setName(_name);
         newStudent.setSurname(_surname);
-        newStudent.setEmail(_email);
+        newStudent.setEmail(_email);    
         studentFacade.create(newStudent);
         setUImessage(FacesMessage.SEVERITY_INFO, "New Student added!");
         refreshTableData();
@@ -130,10 +141,19 @@ public class StudentsController extends UsersController implements Serializable 
         this.selectedStudent = selectedStudent;
     }
 
+    public boolean isIsNewUser() {
+        return _isNewUser;
+    }
+
+    public void setIsNewUser(boolean _isNewUser) {
+        this._isNewUser = _isNewUser;
+    }
+
     @Override
     protected void refreshTableData() {
         this._students = studentFacade.findAll();
         this._unassignedStudents = studentFacade.findAllUnassignedStudents();
+        super.refreshTableData();
     }
 
     public List<Student> getUnassignedStudents() {

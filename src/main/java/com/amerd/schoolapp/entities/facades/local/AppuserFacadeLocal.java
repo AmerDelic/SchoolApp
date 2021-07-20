@@ -28,4 +28,6 @@ public interface AppuserFacadeLocal {
     
     public void removeStaffReference(Appuser fromAppuser);
     
+    List<Appuser> retrieveGenericUsers(String ofPrivilege);
+    
 }

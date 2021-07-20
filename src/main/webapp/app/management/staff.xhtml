@@ -37,6 +37,10 @@
                                         <p:menuitem value="Students" actionListener="#{viewNavigator.toStudentsPage()}" process="@form" update="nav-error-msges"/>
                                         <p:menuitem value="Teachers" actionListener="#{viewNavigator.toTeachersPage()}" process="@form" update="nav-error-msges"/>
                                     </p:submenu>
+                                    <p:submenu label="Add ..">
+                                        <p:menuitem value="new Staff" actionListener="#{viewNavigator.toAddNewStaffSection()}" process="@form" update="nav-error-msges"/>
+                                        <p:menuitem value="new Student" actionListener="#{viewNavigator.toAddNewStudentSection()}" process="@form" update="nav-error-msges"/>
+                                    </p:submenu>
                                 </p:column>
                             </p:submenu>
                             <p:submenu label="Subjects" icon="pi pi-book">
@@ -94,7 +98,8 @@
                                     </p:column>
                                 </p:dataTable>
                                 <p:contextMenu for="all-staff-table">
-                                    <p:menuitem value="Delete" update="all-staff-table-panel" icon="pi pi-times" actionListener="#{staffController.deleteStaff()}">
+                                    <p:menuitem value="Delete" update="all-staff-table-panel add-new-staff-panel" icon="pi pi-times" 
+                                                actionListener="#{staffController.deleteStaff()}">
                                         <p:confirm header="Delete staff" message="Are you sure?" icon="ui-icon-alert" />  
                                     </p:menuitem>
                                 </p:contextMenu>
@@ -107,40 +112,74 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <p:panel>
-                    <h:form style="align-content: center">
-                        <div style="margin: 0vw 20vw 0vw 20vw">
-                            <p:messages id="add-user-msgs" closable="true"/>
-                        </div>
-                        <h:panelGrid columns="2" cellpadding="3" style="margin: 0 auto; align-content: center">
-                            <f:facet name="header">
-                                <h3 style="text-align: center">Add new Staff</h3> 
-                            </f:facet>
-                            <p:outputLabel for="username" value="Username: "/>
-                            <p:inputText  id="username" value="#{staffController.username}" required="true"/>
-                            <p:outputLabel for="password" value="Password: "/>
-                            <p:inputText id="password" value="#{staffController.password}" required="true"/>
-                            <p:outputLabel for="name" value="Name: "/>
-                            <p:inputText id="name" value="#{staffController.name}" required="true"/>
-                            <p:outputLabel for="surname" value="Surname: "/>
-                            <p:inputText id="surname" value="#{staffController.surname}" required="true"/>
-                            <p:outputLabel for="email" value="email: "/>
-                            <p:inputText id="email" value="#{staffController.email}"/>
-                            <div>
-                                <p:commandButton type="submit" value="Submit" icon="pi pi-check" iconPos="right" 
-                                                 actionListener="#{staffController.createStaffUser()}" 
-                                                 process="@form" update="all-staff-table-panel" />           
-                            </div>
-                        </h:panelGrid>
-                    </h:form >
-                    <f:facet name="footer"> 
+            <div class="ui-g" id="addStaffBox">
+                <div class="ui-g-4"/>
+                <div class="ui-g-4">
+                    <p:panel id="add-new-staff-panel" header="Create new staff">
                         <h:form>
-                            <p:commandButton styleClass="rounded-button ui-button-danger" value="Log out" actionListener="#{loginController.logout()}"/>
+                            <div>
+                                <p:messages closable="true"/>
+                            </div>
+                            <div class="ui-g">
+                                <div class="ui-g-12">
+                                    <p:outputLabel for="existing-user-chkbox" value="New app user? "/>
+                                    <p:selectBooleanCheckbox id="existing-user-chkbox" value="#{staffController.isNewUser}">
+                                        <p:ajax update="add-new-staff-panel"/>
+                                    </p:selectBooleanCheckbox>
+                                </div>
+                                <p:outputPanel class="ui-g-12" 
+                                               rendered="#{staffController.isNewUser}">
+                                    <h:panelGrid class="all-centered-panel-grid" columns="2" cellpadding="3">   
+                                        <p:outputLabel for="username" value="Username: "/>
+                                        <p:inputText  id="username" value="#{staffController.username}" required="true"/>
+                                        <p:outputLabel for="password" value="Password: "/>
+                                        <p:inputText id="password" value="#{staffController.password}" required="true"/>
+                                    </h:panelGrid>
+                                </p:outputPanel>
+                                <p:outputPanel class="ui-g-12" 
+                                               rendered="#{!staffController.isNewUser}">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12">
+                                            <p:outputLabel for="existing-user-choice" value="Choose existing user:  "/>
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <p:selectOneMenu id="existing-user-choice" value="#{staffController.selectedUser}"
+                                                             converter="#{appuserConverter}"
+                                                             var="usr" panelStyle="width:200px" filter="true" filterMatchMode="startsWith">
+                                                <f:selectItems value="#{staffController.genericStaffUsers}" var="genericUser" 
+                                                               itemLabel="#{genericUser.toString()}" itemValue="#{genericUser}"/>
+                                                <p:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Unassigned users"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{usr.toString()}"/>
+                                                </p:column>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                </p:outputPanel>
+                                <p:outputPanel class="ui-g-12"> 
+                                    <h:panelGrid class="all-centered-panel-grid" columns="2" cellpadding="3">
+                                        <p:outputLabel for="name" value="Name: "/>
+                                        <p:inputText id="name" value="#{staffController.name}" required="true"/>
+                                        <p:outputLabel for="surname" value="Surname: "/>
+                                        <p:inputText id="surname" value="#{staffController.surname}" required="true"/>
+                                        <p:outputLabel for="email" value="email: "/>
+                                        <p:inputText id="email" value="#{staffController.email}"/>
+                                    </h:panelGrid>
+                                </p:outputPanel>
+                                <div class="ui-g-12">
+                                    <p:commandButton type="submit" value="Add Staff" icon="pi pi-check" iconPos="right" 
+                                                     actionListener="#{staffController.createStaffUser()}" 
+                                                     process="@form" update="all-staff-table-panel add-new-staff-panel"/>           
+                                </div>
+                            </div>
                         </h:form>
-                    </f:facet>
-                </p:panel>
+                    </p:panel>
+                </div>
+                <div class="ui-g-4"/>
             </div>
+
         </h:body>
     </f:view>
 

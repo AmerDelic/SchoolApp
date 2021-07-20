@@ -1,4 +1,3 @@
-
 package com.amerd.schoolapp.controllers;
 
 import com.amerd.schoolapp.entities.Appuser;
@@ -6,6 +5,7 @@ import com.amerd.schoolapp.entities.Classgroup;
 import com.amerd.schoolapp.entities.Schoolstaff;
 import com.amerd.schoolapp.entities.StaffSubject;
 import com.amerd.schoolapp.entities.facades.local.SchoolstaffFacadeLocal;
+import com.amerd.schoolapp.util.constants.Privilege;
 import com.amerd.schoolapp.util.constants.UIMessages;
 import java.io.Serializable;
 import java.util.List;
@@ -18,9 +18,10 @@ import javax.transaction.Transactional;
 
 @RequestScoped
 @Named
-public class StaffController extends UsersController implements Serializable{
+public class StaffController extends UsersController implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     private Appuser _appuserId;
     private String _name;
     private String _surname;
@@ -31,39 +32,50 @@ public class StaffController extends UsersController implements Serializable{
     private List<Schoolstaff> _unassignedStaff;
     private List<Schoolstaff> _nonHeadTeachers;
     private Schoolstaff _selectedStaff;
-    
+    private boolean _isNewUser;
+
     @Inject
-    SchoolstaffFacadeLocal staffFacade; 
-    
+    SchoolstaffFacadeLocal staffFacade;
+
     public StaffController() {
     }
-    
+
     @Override
     @PostConstruct
     public void onInit() {
+        this._isNewUser = false;
         refreshTableData();
     }
-    
+
     @Transactional
     public void createStaffUser() {
-        setPrivilege("staff");
-        Appuser newUser = addUser();
+        Appuser theUser = null;
+        if (this._isNewUser) {
+            setPrivilege(Privilege.STAFF);
+             theUser = addUser();
+        } else if (null != super.getSelectedUser()) {
+             theUser = super.getSelectedUser();
+        } else {
+            setUImessage(FacesMessage.SEVERITY_ERROR, UIMessages.MISSING_FORM_INPUT);
+            return;
+        }   
         Schoolstaff newStaff = new Schoolstaff();
-        newStaff.setAppuserId(newUser);
+        newStaff.setAppuserId(theUser);
         newStaff.setName(_name);
         newStaff.setSurname(_surname);
         newStaff.setEmail(_email);
+        
         staffFacade.create(newStaff);
         setUImessage(FacesMessage.SEVERITY_INFO, "New Staff added!");
         refreshTableData();
     }
-    
+
     @Transactional
     public void deleteStaff() {
         if (_selectedStaff != null) {
-           appuserFacadeLocal.removeStaffReference(_selectedStaff.getAppuserId());
+            appuserFacadeLocal.removeStaffReference(_selectedStaff.getAppuserId());
             staffFacade.remove(_selectedStaff);
-            setUImessage(FacesMessage.SEVERITY_INFO, 
+            setUImessage(FacesMessage.SEVERITY_INFO,
                     "Staff '" + _selectedStaff.getName() + " " + _selectedStaff.getSurname() + "' removed.");
             this._selectedStaff = null;
             refreshTableData();
@@ -135,8 +147,8 @@ public class StaffController extends UsersController implements Serializable{
     public void setSelectedStaff(Schoolstaff selectedStaff) {
         this._selectedStaff = selectedStaff;
     }
-    
-     public List<Schoolstaff> getUnassignedStaff() {
+
+    public List<Schoolstaff> getUnassignedStaff() {
         return _unassignedStaff;
     }
 
@@ -151,16 +163,21 @@ public class StaffController extends UsersController implements Serializable{
     public void setNonHeadTeachers(List<Schoolstaff> _nonHeadTeachers) {
         this._nonHeadTeachers = _nonHeadTeachers;
     }
-    
+
+    public boolean isIsNewUser() {
+        return _isNewUser;
+    }
+
+    public void setIsNewUser(boolean _isNewUser) {
+        this._isNewUser = _isNewUser;
+    }
+
     @Override
     protected void refreshTableData() {
         this._allstaff = staffFacade.findAll();
         this._unassignedStaff = staffFacade.findAllStaffByStatus(false);
         this._nonHeadTeachers = staffFacade.findNonHeadTeacherStaff();
+        super.refreshTableData();
     }
 
-   
-    
-    
-    
 }

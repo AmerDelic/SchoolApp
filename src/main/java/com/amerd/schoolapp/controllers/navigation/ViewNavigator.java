@@ -24,7 +24,7 @@ public class ViewNavigator implements Serializable {
     private String role;
     private String classgroupId;
     private String studentId;
-    
+
     @Inject
     FacesContext facesContext;
     @Inject
@@ -208,7 +208,7 @@ public class ViewNavigator implements Serializable {
             Logger.getLogger(ViewNavigator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void toHomeroomPage() {
         refreshUserRole();
         try {
@@ -227,7 +227,45 @@ public class ViewNavigator implements Serializable {
             Logger.getLogger(ViewNavigator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-  
+
+    public void toAddNewStudentSection() {
+        refreshUserRole();
+        try {
+            switch (role) {
+                case "student":
+                    setUImessage(FacesMessage.SEVERITY_WARN, UIMessages.NO_PERMISSION_WARN);
+                    break;
+                case "staff":
+                    setUImessage(FacesMessage.SEVERITY_WARN, UIMessages.NO_PERMISSION_WARN);
+                    break;
+                case "superadmin":
+                    redirectToStudentCreation();
+                    break;
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ViewNavigator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void toAddNewStaffSection() {
+        refreshUserRole();
+        try {
+            switch (role) {
+                case "student":
+                    setUImessage(FacesMessage.SEVERITY_WARN, UIMessages.NO_PERMISSION_WARN);
+                    break;
+                case "staff":
+                    setUImessage(FacesMessage.SEVERITY_WARN, UIMessages.NO_PERMISSION_WARN);
+                    break;
+                case "superadmin":
+                    redirectToStaffCreation();
+                    break;
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ViewNavigator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public void toLoginPage() {
         refreshUserRole();
         try {
@@ -249,13 +287,13 @@ public class ViewNavigator implements Serializable {
     private ExternalContext getExternalContext() {
         return facesContext.getExternalContext();
     }
-    
+
     private void refreshUserRole() {
         if (getExternalContext().isUserInRole("superadmin")) {
             this.role = "superadmin";
         } else if (getExternalContext().isUserInRole("staff")) {
             this.role = "staff";
-        } else if (getExternalContext().isUserInRole("student")){
+        } else if (getExternalContext().isUserInRole("student")) {
             this.role = "student";
         } else {
             this.role = "No User Role";
@@ -318,15 +356,23 @@ public class ViewNavigator implements Serializable {
     private void redirectToClassgroups() throws IOException {
         getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/app/management/classgroups.xhtml");
     }
-    
+
     private void redirectToHomeroom() throws IOException {
         getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/app/homeroom.xhtml");
     }
-    
+
     private void redirectToLogin() throws IOException {
         getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/login.xhtml");
     }
-    
+
+    private void redirectToStudentCreation() throws IOException {
+        getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/app/students.xhtml#addStudentBox");
+    }
+
+    private void redirectToStaffCreation() throws IOException {
+        getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/app/management/staff.xhtml#addStaffBox");
+    }
+
     private void setUImessage(Severity severity, String msg) {
         facesContext.addMessage(null, new FacesMessage(severity, msg, null));
     }

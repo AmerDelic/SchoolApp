@@ -38,6 +38,10 @@
                                         <p:menuitem value="Students" actionListener="#{viewNavigator.toStudentsPage()}" process="@form" update="nav-error-msges"/>
                                         <p:menuitem value="Teachers" actionListener="#{viewNavigator.toTeachersPage()}" process="@form" update="nav-error-msges"/>
                                     </p:submenu>
+                                    <p:submenu label="Add ..">
+                                        <p:menuitem value="new Staff" actionListener="#{viewNavigator.toAddNewStaffSection()}" process="@form" update="nav-error-msges"/>
+                                        <p:menuitem value="new Student" actionListener="#{viewNavigator.toAddNewStudentSection()}" process="@form" update="nav-error-msges"/>
+                                    </p:submenu>
                                 </p:column>
                             </p:submenu>
                             <p:submenu label="Subjects" icon="pi pi-book">
