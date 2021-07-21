@@ -25,8 +25,7 @@ import javax.transaction.Transactional;
 
 @RequestScoped
 @Named
-public class ClassgroupController extends StaffController implements Serializable {
-    
+public class ClassgroupController extends StaffController implements Serializable {   
     private static final long serialVersionUID = 1L;
     
     private List<Classroom> _classrooms;

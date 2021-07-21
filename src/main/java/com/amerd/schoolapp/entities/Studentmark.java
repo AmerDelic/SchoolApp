@@ -20,9 +20,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/*
- * Note: Just a auto-generated, unsused class. Needs modification.
- */
+
 @Entity
 @Table(name = "studentmark")
 @NamedQueries({
@@ -169,7 +167,6 @@ public class Studentmark implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Studentmark)) {
             return false;
         }
@@ -178,6 +175,10 @@ public class Studentmark implements Serializable {
             return false;
         }
         return true;
+    }
+    
+    public String getIdString() {
+        return String.valueOf(id);
     }
 
     @Override

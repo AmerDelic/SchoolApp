@@ -27,7 +27,7 @@ import javax.validation.constraints.NotEmpty;
 @RequestScoped
 @Named
 public class LoginController implements Serializable{
-    
+    private static final long serialVersionUID = 1L;
     @NotEmpty
     private String _username;
     @NotEmpty
@@ -62,46 +62,6 @@ public class LoginController implements Serializable{
             this._isLoggedIn = true;
             this._loginVisible = false;
         }
-    }
-
-    public String getUsername() {
-        return _username;
-    }
-
-    public void setUsername(String _username) {
-        this._username = _username;
-    }
-
-    public String getPassword() {
-        return _password;
-    }
-
-    public void setPassword(String _password) {
-        this._password = _password;
-    }
-
-    public Appuser getCurrentUser() {
-        return _currentUser;
-    }
-
-    public void setCurrentUser(Appuser _currentUser) {
-        this._currentUser = _currentUser;
-    }
-
-    public boolean isIsLoggedIn() {
-        return _isLoggedIn;
-    }
-
-    public void setIsLoggedIn(boolean _isLoggedIn) {
-        this._isLoggedIn = _isLoggedIn;
-    }
-
-    public boolean isLoginVisible() {
-        return _loginVisible;
-    }
-
-    public void setLoginVisible(boolean _loginVisible) {
-        this._loginVisible = _loginVisible;
     }
     
     public void login() {    
@@ -151,5 +111,44 @@ public class LoginController implements Serializable{
         return facesContext.getExternalContext();
     }
     
+     public String getUsername() {
+        return _username;
+    }
+
+    public void setUsername(String _username) {
+        this._username = _username;
+    }
+
+    public String getPassword() {
+        return _password;
+    }
+
+    public void setPassword(String _password) {
+        this._password = _password;
+    }
+
+    public Appuser getCurrentUser() {
+        return _currentUser;
+    }
+
+    public void setCurrentUser(Appuser _currentUser) {
+        this._currentUser = _currentUser;
+    }
+
+    public boolean isIsLoggedIn() {
+        return _isLoggedIn;
+    }
+
+    public void setIsLoggedIn(boolean _isLoggedIn) {
+        this._isLoggedIn = _isLoggedIn;
+    }
+
+    public boolean isLoginVisible() {
+        return _loginVisible;
+    }
+
+    public void setLoginVisible(boolean _loginVisible) {
+        this._loginVisible = _loginVisible;
+    }
    
 }

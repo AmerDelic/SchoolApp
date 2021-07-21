@@ -20,7 +20,8 @@ import javax.transaction.Transactional;
 @RequestScoped
 @Named
 public class TeacherController extends StaffController implements Serializable {
-
+    private static final long serialVersionUID = 1L;
+    
     private List<StaffSubject> _teachers;
     private StaffSubject _selectedTeacher;
     private Schoolstaff _selectedStaff;
@@ -50,7 +51,7 @@ public class TeacherController extends StaffController implements Serializable {
             newTeacher.setSubject(_selectedSubject);
             newTeacher.setStaffSubjectPK(new StaffSubjectPK(_selectedStaff.getId(), _selectedSubject.getId()));
             teacherFacade.create(newTeacher);
-            setUImessage(FacesMessage.SEVERITY_INFO, 
+            setUImessage(FacesMessage.SEVERITY_INFO,
                     newTeacher.toString() + " assigned to " + _selectedSubject.getSubjectName());
             refreshTableData();
 

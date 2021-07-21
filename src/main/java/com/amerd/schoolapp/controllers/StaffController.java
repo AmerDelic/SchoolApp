@@ -19,7 +19,6 @@ import javax.transaction.Transactional;
 @RequestScoped
 @Named
 public class StaffController extends UsersController implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     private Appuser _appuserId;

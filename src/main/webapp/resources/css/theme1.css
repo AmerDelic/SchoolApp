@@ -81,6 +81,65 @@ body .ui-panel .ui-panel-titlebar {
     vertical-align: middle !important;
 }
 
+#student-profile-info-header {
+    padding: 0;
+    margin: 0;
+    background-image: linear-gradient(to bottom right, #404040, #737373);
+    border-radius: 15px 48px 0px 0px;
+    color: #f2f2f2;
+}
 
+.student-profile-info-area {
+    background-image: linear-gradient(to bottom right, #80e5ff, #ccffeb);
+    border: 1px solid rgba(27, 27, 26, 0.18); 
+    border-radius: 15px 50px 0px 0px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    color: #666666;
+}
+
+/*.student-profile-info-grid {
+    border: 1px solid rgba(27, 27, 26, 0.18);
+   
+}*/
+
+#profile-contents-subjects-header {
+    padding: 0;
+    background-image: linear-gradient(to bottom right, #404040, #737373);
+    border-radius: 15px 50px 0px 0px;
+    color: #f2f2f2;
+}
+
+#profile-contents-main-grid {
+    margin-top: 0.5vw;
+    width: 72%;
+    border-radius: 15px 50px 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+    align-items: baseline;
+    padding-bottom: 0.5vw;
+    background-image: linear-gradient(to bottom right, #e6e6e6, #ffffff);
+    color: #666666;
+}
+
+#profile-contents-months-header {
+    padding-right: 0.2vw;
+    background-image: linear-gradient(to bottom right, #404040, #737373);
+    border-radius: 15px 50px 0px 0px;
+    color: #f2f2f2;
+}
+
+.ui-panelgrid .ui-panelgrid-header {
+    padding: 0;
+}
+
+.grade-score-box {  
+    padding: 0;
+    background-image: linear-gradient(to bottom right, #e6e6e6, #ffffff);
+    color: #404040;
+}
+
+.profile-contents-cells {
+    width: 10%;
+}
 
 

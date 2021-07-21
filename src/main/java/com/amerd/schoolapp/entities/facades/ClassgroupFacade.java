@@ -7,6 +7,7 @@ import com.amerd.schoolapp.entities.Classgroup;
 import com.amerd.schoolapp.entities.Student;
 import com.amerd.schoolapp.entities.StudentClassgroup;
 import com.amerd.schoolapp.entities.facades.local.StudentFacadeLocal;
+import com.amerd.schoolapp.util.constants.Miscellaneous;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Optional;
@@ -22,7 +23,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class ClassgroupFacade extends AbstractFacade<Classgroup> implements ClassgroupFacadeLocal {
 
-    @PersistenceContext(unitName = "school_pu")
+    @PersistenceContext(unitName = Miscellaneous.SCHOOL_APP_PU)
     private EntityManager em;
     
     @Inject

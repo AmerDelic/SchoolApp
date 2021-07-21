@@ -5,6 +5,7 @@ import com.amerd.schoolapp.entities.facades.local.StudentFacadeLocal;
 import com.amerd.schoolapp.entities.facades.abstracts.AbstractFacade;
 import com.amerd.schoolapp.entities.Student;
 import com.amerd.schoolapp.entities.StudentClassgroup;
+import com.amerd.schoolapp.util.constants.Miscellaneous;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.ejb.Stateless;
@@ -16,7 +17,7 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class StudentFacade extends AbstractFacade<Student> implements StudentFacadeLocal {
 
-    @PersistenceContext(unitName = "school_pu")
+    @PersistenceContext(unitName = Miscellaneous.SCHOOL_APP_PU)
     private EntityManager em;
 
     @Override

@@ -5,6 +5,7 @@ import com.amerd.schoolapp.entities.Classgroup;
 import com.amerd.schoolapp.entities.facades.local.ClassroomFacadeLocal;
 import com.amerd.schoolapp.entities.facades.abstracts.AbstractFacade;
 import com.amerd.schoolapp.entities.Classroom;
+import com.amerd.schoolapp.util.constants.Miscellaneous;
 import java.util.List;
 import java.util.ListIterator;
 import javax.ejb.Stateless;
@@ -15,7 +16,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class ClassroomFacade extends AbstractFacade<Classroom> implements ClassroomFacadeLocal {
 
-    @PersistenceContext(unitName = "school_pu")
+    @PersistenceContext(unitName = Miscellaneous.SCHOOL_APP_PU)
     private EntityManager em;
 
     @Override

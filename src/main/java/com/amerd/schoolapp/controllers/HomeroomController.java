@@ -22,7 +22,6 @@ import javax.transaction.Transactional;
 @RequestScoped
 @Named
 public class HomeroomController implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     private Classgroup _currentClassgroup;

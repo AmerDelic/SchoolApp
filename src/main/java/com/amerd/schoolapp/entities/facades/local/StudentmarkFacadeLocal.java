@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import javax.ejb.Local;
 
-/*
- * Note: Just a auto-generated, unsused class. Needs modification.
- */
 @Local
 public interface StudentmarkFacadeLocal {
 

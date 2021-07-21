@@ -7,27 +7,211 @@
 
     <f:view>
         <h:head>
-            <title>Homepage</title>
+            <title>Student Profile</title>
         </h:head>
         <h:body>
-            <h3>Welcome </h3>
-            <p:panel style="margin: 10vw 20vw 20vw 20vw">
-                <f:facet name="header">
-                    Username: #{profileController.user.appUsername}
-                    Student: #{profileController.student.name}
-                    TestString: #{profileController.testString}
+            <h:body>
+                <f:facet name="last">
+                    <h:outputStylesheet name="css/theme1.css"/>
                 </f:facet>
-                <p:dataView>
+                <div class="mainContentsBox">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-3">
+                            <div class="student-profile-info-area">
+                                <p:panelGrid class="student-profile-info-grid" columns="2" layout="grid">
+                                    <f:facet name="header">
+                                        <div > 
+                                            <h3 id="student-profile-info-header">Student profile</h3> 
+                                        </div>
+                                    </f:facet>
+                                    <h:outputText value="Name:"/>
+                                    <h:outputText value="#{profileController.student.toString()}"/>
 
-                </p:dataView>
+                                    <h:outputText value="User id:"/>
+                                    <h:outputText value="#{profileController.student.idString}"/>
 
-                <f:facet name="footer"> 
-                    <h:form>
-                        <p:commandButton styleClass="rounded-button ui-button-danger" value="Log out" actionListener="#{loginController.logout()}"/>
-                    </h:form>
-                </f:facet>
+                                    <h:outputText value="Class:"/>
+                                    <h:outputText value="#{profileController.student.studentClassgroup.classgroup}"/>
 
-            </p:panel>
+                                    <h:outputText value="e-mail:"/>
+                                    <h:outputText value="#{profileController.student.email}"/>
+                                </p:panelGrid>
+                            </div>
+
+                        </div>
+                        <div id="profile-contents-main-grid" class="ui-g-12 ui-md-9 ui-g-nopad">
+                            <div class="ui-g"> 
+                                <div class="ui-g-12 ui-md-2">
+                                    <div class="ui-g">
+                                        <div id="profile-contents-subjects-header" class="ui-g-12">
+                                            <h4>Subjects</h4>
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <h5>Mathematics</h5>
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <h5>Physics</h5>
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <h5>English Language</h5>
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <h5>Native Language</h5>
+                                        </div> 
+                                        <div class="ui-g-12">
+                                            <h5>German language</h5>
+                                        </div> 
+                                        <div class="ui-g-12">
+                                            <h5>History</h5>
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <h5>Geography</h5>
+                                        </div>
+                                        <div class="ui-g-12">
+                                            <h5>Chemistry</h5>
+                                        </div> 
+                                        <div class="ui-g-12">
+                                            <h5>Information Technology</h5>
+                                        </div> 
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-md-10">
+                                    <div class="ui-g">
+                                        <div id="profile-contents-months-header" class="ui-g-12 ui-g-nopad">
+                                            <div class="ui-g-1 ui-g-nopad profile-contents-cells">
+                                                <h5>January</h5>
+                                                <div class="ui-g grade-score-box">
+                                                    <div class="ui-g-12">
+                                                        <h5>5</h5>
+                                                    </div>
+                                                    <div class="ui-g-12">
+                                                        <h5>3</h5>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-1 ui-g-nopad profile-contents-cells">
+                                                <h5>February</h5>
+                                                <div class="ui-g grade-score-box">
+                                                    <div class="ui-g-12">
+                                                        <h5>5</h5>
+                                                    </div>
+                                                    <div class="ui-g-12">
+                                                        <h5>3</h5>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-1 ui-g-nopad profile-contents-cells">
+                                                <h5>March</h5>
+                                                <div class="ui-g grade-score-box">
+                                                    <div class="ui-g-12">
+                                                        <h5>5</h5>
+                                                    </div>
+                                                    <div class="ui-g-12">
+                                                        <h5>3</h5>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-1 ui-g-nopad profile-contents-cells">
+                                                <h5>April</h5>
+                                                <div class="ui-g grade-score-box">
+                                                    <div class="ui-g-12">
+                                                        <h5>5</h5>
+                                                    </div>
+                                                    <div class="ui-g-12">
+                                                        <h5>3</h5>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-1 ui-g-nopad profile-contents-cells">
+                                                <h5>May</h5>
+                                                <div class="ui-g grade-score-box">
+                                                    <div class="ui-g-12">
+                                                        <h5>5</h5>
+                                                    </div>
+                                                    <div class="ui-g-12">
+                                                        <h5>3</h5>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-1 ui-g-nopad profile-contents-cells">
+                                                <h5>June</h5>
+                                                <div class="ui-g grade-score-box">
+                                                    <div class="ui-g-12">
+                                                        <h5>5</h5>
+                                                    </div>
+                                                    <div class="ui-g-12">
+                                                        <h5>3</h5>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-1 ui-g-nopad profile-contents-cells">
+                                                <h5>September</h5>
+                                                <div class="ui-g grade-score-box">
+                                                    <div class="ui-g-12">
+                                                        <h5>5</h5>
+                                                    </div>
+                                                    <div class="ui-g-12">
+                                                        <h5>3</h5>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-1 ui-g-nopad profile-contents-cells">
+                                                <h5>October</h5>
+                                                <div class="ui-g grade-score-box">
+                                                    <div class="ui-g-12">
+                                                        <h5>5</h5>
+                                                    </div>
+                                                    <div class="ui-g-12">
+                                                        <h5>3</h5>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-1 ui-g-nopad profile-contents-cells">
+                                                <h5>November</h5>
+                                                <div class="ui-g grade-score-box">
+                                                    <div class="ui-g-12">
+                                                        <h5>5</h5>
+                                                    </div>
+                                                    <div class="ui-g-12">
+                                                        <h5>3</h5>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-1 ui-g-nopad profile-contents-cells">
+                                                <h5>December</h5>
+                                                <div class="ui-g grade-score-box">
+                                                    <div class="ui-g-12">
+                                                        <h5>5</h5>
+                                                    </div>
+                                                    <div class="ui-g-12">
+                                                        <h5>3</h5>
+                                                    </div> 
+                                                </div>
+
+                                            </div>
+                                        </div>    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui-g-12">
+                            Footer
+                        </div>
+                    </div>
+
+
+                </div>
+                <div>
+                    <p:panel>
+
+                        <f:facet name="footer"> 
+                            <h:form>
+                                <p:commandButton styleClass="rounded-button ui-button-danger" value="Log out" actionListener="#{loginController.logout()}"/>
+                            </h:form>
+                        </f:facet>
+                    </p:panel>
+                </div>
+            </h:body>
         </h:body> 
     </f:view>
 

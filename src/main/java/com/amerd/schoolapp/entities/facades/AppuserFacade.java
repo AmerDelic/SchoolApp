@@ -3,6 +3,7 @@ package com.amerd.schoolapp.entities.facades;
 import com.amerd.schoolapp.entities.facades.local.AppuserFacadeLocal;
 import com.amerd.schoolapp.entities.facades.abstracts.AbstractFacade;
 import com.amerd.schoolapp.entities.Appuser;
+import com.amerd.schoolapp.util.constants.Miscellaneous;
 import com.amerd.schoolapp.util.constants.Privilege;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import javax.persistence.Query;
 @Stateless
 public class AppuserFacade extends AbstractFacade<Appuser> implements AppuserFacadeLocal {
 
-    @PersistenceContext(unitName = "school_pu")
+    @PersistenceContext(unitName = Miscellaneous.SCHOOL_APP_PU)
     private EntityManager em;
 
     @Override
