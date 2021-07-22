@@ -94,7 +94,7 @@
                                 </p:dataTable>
                                 <p:contextMenu for="all-students-table">
                                     <p:menuitem value="View profile .." icon="pi pi-times" actionListener="#{homeroomController.toSelectedProfile()}"/>
-                                    <p:menuitem value="Delete" update="all-students-table table-action-msg" icon="pi pi-times" 
+                                    <p:menuitem value="Remove" update="all-students-table table-action-msg" icon="pi pi-times" 
                                                 actionListener="#{homeroomController.removeClassMember()}">
                                         <p:confirm header="Delete student" message="Are you sure?" icon="ui-icon-alert" />
                                     </p:menuitem>

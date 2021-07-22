@@ -29,7 +29,7 @@
         <display-name>Staff Role</display-name>
         <web-resource-collection>
             <web-resource-name>Staff Pages</web-resource-name>
-            <url-pattern>/app/*</url-pattern>
+            <url-pattern>/app/management/classgroups.xhtml</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>staff</role-name>

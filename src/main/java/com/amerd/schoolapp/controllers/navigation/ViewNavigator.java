@@ -179,7 +179,7 @@ public class ViewNavigator implements Serializable {
                     setUImessage(FacesMessage.SEVERITY_WARN, UIMessages.NO_PERMISSION_WARN);
                     break;
                 case "staff":
-                    setUImessage(FacesMessage.SEVERITY_WARN, UIMessages.NO_PERMISSION_WARN);
+                    redirectToClassgroups();
                     break;
                 case "superadmin":
                     redirectToClassgroups();
@@ -198,7 +198,7 @@ public class ViewNavigator implements Serializable {
                     redirectToProfile();
                     break;
                 case "staff":
-                    redirectToStudents();
+                    redirectToClassgroups();
                     break;
                 case "superadmin":
                     redirectToUsers();
