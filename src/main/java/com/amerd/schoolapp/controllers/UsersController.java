@@ -5,6 +5,8 @@ import com.amerd.schoolapp.entities.facades.local.AppuserFacadeLocal;
 import com.amerd.schoolapp.util.constants.Privilege;
 import com.amerd.schoolapp.util.constants.UIMessages;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -28,7 +30,7 @@ public class UsersController implements Serializable {
     private Appuser selectedUser;
     private List<Appuser> _genericStaffUsers;
     private List<Appuser> _genericStudentUsers;
-    
+    private List<String> _privileges;
     @Inject
     AppuserFacadeLocal appuserFacadeLocal;
     @Inject
@@ -41,6 +43,7 @@ public class UsersController implements Serializable {
 
     @PostConstruct
     public void onInit() {
+        this._privileges = Arrays.asList(Privilege.SUPERADMIN, Privilege.STAFF, Privilege.STUDENT);
         refreshTableData();
     }
 
@@ -126,6 +129,14 @@ public class UsersController implements Serializable {
         this._genericStaffUsers = _genericStaffUsers;
     }
 
+    public List<String> getPrivileges() {
+        return _privileges;
+    }
+
+    public void setPrivileges(List<String> _privileges) {
+        this._privileges = _privileges;
+    }
+    
     protected void setUImessage(Severity severity, String msg) {
         facesContext.addMessage(null, new FacesMessage(severity, msg, null));
     }

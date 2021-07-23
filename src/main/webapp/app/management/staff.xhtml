@@ -121,42 +121,13 @@
                                 <p:messages closable="true"/>
                             </div>
                             <div class="ui-g">
-                                <div class="ui-g-12">
-                                    <p:outputLabel for="existing-user-chkbox" value="New app user? "/>
-                                    <p:selectBooleanCheckbox id="existing-user-chkbox" value="#{staffController.isNewUser}">
-                                        <p:ajax update="add-new-staff-panel"/>
-                                    </p:selectBooleanCheckbox>
-                                </div>
-                                <p:outputPanel class="ui-g-12" 
-                                               rendered="#{staffController.isNewUser}">
+                                <p:outputPanel class="ui-g-12">
                                     <h:panelGrid class="all-centered-panel-grid" columns="2" cellpadding="3">   
                                         <p:outputLabel for="username" value="Username: "/>
                                         <p:inputText  id="username" value="#{staffController.username}" required="true"/>
                                         <p:outputLabel for="password" value="Password: "/>
-                                        <p:inputText id="password" value="#{staffController.password}" required="true"/>
+                                        <p:inputText id="password" value="#{staffController.password}" type="password" required="true"/>
                                     </h:panelGrid>
-                                </p:outputPanel>
-                                <p:outputPanel class="ui-g-12" 
-                                               rendered="#{!staffController.isNewUser}">
-                                    <div class="ui-g">
-                                        <div class="ui-g-12">
-                                            <p:outputLabel for="existing-user-choice" value="Choose existing user:  "/>
-                                        </div>
-                                        <div class="ui-g-12">
-                                            <p:selectOneMenu id="existing-user-choice" value="#{staffController.selectedUser}"
-                                                             converter="#{appuserConverter}"
-                                                             var="usr" panelStyle="width:200px" filter="true" filterMatchMode="startsWith">
-                                                <f:selectItems value="#{staffController.genericStaffUsers}" var="genericUser" 
-                                                               itemLabel="#{genericUser.toString()}" itemValue="#{genericUser}"/>
-                                                <p:column>
-                                                    <f:facet name="header">
-                                                        <h:outputText value="Unassigned users"/>
-                                                    </f:facet>
-                                                    <h:outputText value="#{usr.toString()}"/>
-                                                </p:column>
-                                            </p:selectOneMenu>
-                                        </div>
-                                    </div>
                                 </p:outputPanel>
                                 <p:outputPanel class="ui-g-12"> 
                                     <h:panelGrid class="all-centered-panel-grid" columns="2" cellpadding="3">

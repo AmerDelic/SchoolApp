@@ -19,6 +19,7 @@ import javax.transaction.Transactional;
 @RequestScoped
 @Named
 public class StaffController extends UsersController implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private Appuser _appuserId;
@@ -31,7 +32,7 @@ public class StaffController extends UsersController implements Serializable {
     private List<Schoolstaff> _unassignedStaff;
     private List<Schoolstaff> _nonHeadTeachers;
     private Schoolstaff _selectedStaff;
-    private boolean _isNewUser;
+   
 
     @Inject
     SchoolstaffFacadeLocal staffFacade;
@@ -42,28 +43,25 @@ public class StaffController extends UsersController implements Serializable {
     @Override
     @PostConstruct
     public void onInit() {
-        this._isNewUser = false;
         refreshTableData();
     }
 
     @Transactional
     public void createStaffUser() {
         Appuser theUser = null;
-        if (this._isNewUser) {
-            setPrivilege(Privilege.STAFF);
-             theUser = addUser();
-        } else if (null != super.getSelectedUser()) {
-             theUser = super.getSelectedUser();
-        } else {
-            setUImessage(FacesMessage.SEVERITY_ERROR, UIMessages.MISSING_FORM_INPUT);
+        setPrivilege(Privilege.STAFF);
+        theUser = addUser();
+        if(theUser == null) {
+            setUImessage(FacesMessage.SEVERITY_WARN, UIMessages.MISSING_FORM_INPUT);
             return;
-        }   
+        }
+      //  theUser = appuserFacadeLocal.retrieveAppuserByUsername(theUser.getAppUsername()).get();
         Schoolstaff newStaff = new Schoolstaff();
         newStaff.setAppuserId(theUser);
         newStaff.setName(_name);
         newStaff.setSurname(_surname);
         newStaff.setEmail(_email);
-        
+
         staffFacade.create(newStaff);
         setUImessage(FacesMessage.SEVERITY_INFO, "New Staff added!");
         refreshTableData();
@@ -161,14 +159,6 @@ public class StaffController extends UsersController implements Serializable {
 
     public void setNonHeadTeachers(List<Schoolstaff> _nonHeadTeachers) {
         this._nonHeadTeachers = _nonHeadTeachers;
-    }
-
-    public boolean isIsNewUser() {
-        return _isNewUser;
-    }
-
-    public void setIsNewUser(boolean _isNewUser) {
-        this._isNewUser = _isNewUser;
     }
 
     @Override

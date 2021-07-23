@@ -115,6 +115,9 @@
                     <h:form style="align-content: center">
                         <div style="margin: 0vw 20vw 0vw 20vw">
                             <p:messages id="add-user-msgs" closable="true"/>
+                        </div> 
+                        <div>
+                            <p:outputLabel  value="This adds a basic user. To add Students or Staff go Users -> Add.. -> new "/>
                         </div>
                         <h:panelGrid columns="2" cellpadding="3" style="margin: 0 auto; align-content: center">
                             <p:outputLabel for="username" value="Username: "/>
@@ -122,7 +125,19 @@
                             <p:outputLabel for="password" value="Password: "/>
                             <p:inputText id="password" value="#{usersController.password}"/>
                             <p:outputLabel for="privilege" value="Privilege: "/>
-                            <p:inputText id="privilege" value="#{usersController.privilege}"/>
+                            <p:selectOneMenu id="privilege" value="#{usersController.privilege}"
+                                             var="p" panelStyle="width:150px" filter="true" filterMatchMode="startsWith">
+                                <f:selectItems id="available-staff" 
+                                               value="#{usersController.privileges}" 
+                                               var="privilege" itemLabel="#{privilege}" 
+                                               itemValue="#{privilege}"/>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Privileges"/>
+                                    </f:facet>
+                                    <h:outputText value="#{p}"/>
+                                </p:column>
+                            </p:selectOneMenu>
                             <div>
                                 <p:commandButton type="submit" value="Submit" icon="pi pi-check" iconPos="right" 
                                                  actionListener="#{usersController.addUser()}" 

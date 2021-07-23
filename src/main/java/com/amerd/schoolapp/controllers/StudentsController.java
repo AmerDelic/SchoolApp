@@ -29,7 +29,6 @@ public class StudentsController extends UsersController implements Serializable 
     private List<Student> _students;
     private List<Student> _unassignedStudents;
     private Student selectedStudent;
-    private boolean _isNewUser;
 
     @Inject
     StudentFacadeLocal studentFacade;
@@ -49,16 +48,14 @@ public class StudentsController extends UsersController implements Serializable 
 
     @Transactional
     public void addStudentUser() {
-        Appuser theUser = null;
-        if (this._isNewUser) {
-            setPrivilege(Privilege.STUDENT);
-             theUser = addUser();
-        } else if (null != super.getSelectedUser()) {
-             theUser = super.getSelectedUser();
-        } else {
-            setUImessage(FacesMessage.SEVERITY_ERROR, UIMessages.MISSING_FORM_INPUT);
+       Appuser theUser = null;
+        setPrivilege(Privilege.STUDENT);
+        theUser = addUser();
+        if(theUser == null) {
+            setUImessage(FacesMessage.SEVERITY_WARN, UIMessages.MISSING_FORM_INPUT);
             return;
-        }   
+        }
+        
         Student newStudent = new Student();
         newStudent.setAppuserId(theUser);
         newStudent.setName(_name);
@@ -139,14 +136,6 @@ public class StudentsController extends UsersController implements Serializable 
 
     public void setSelectedStudent(Student selectedStudent) {
         this.selectedStudent = selectedStudent;
-    }
-
-    public boolean isIsNewUser() {
-        return _isNewUser;
-    }
-
-    public void setIsNewUser(boolean _isNewUser) {
-        this._isNewUser = _isNewUser;
     }
 
     @Override
