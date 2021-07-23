@@ -1,6 +1,24 @@
 # SchoolApp
 A school management app -- student project
 
+MySql baza je exportovana u file 'school.sql' koji mozete preuzeti iz root foldera projekta.
+
+Treanutno, registracija novih korisnika unutar aplikacije je moguca samo ako ste vec prijavljeni kao 'superadmin' korisnik,
+koristenjem formulara na users.xhtml, staff.xhtml, i students.xhtml. Implementirat cu 'user registration form' na samom login-u cim stignem. 
+Za sada mozete koristiti dolje navedene naloge za testiranje:
+
+'superuser' account:
+	username: johnd
+	password: test
+	
+'staff' account:
+	username: filipa.b
+	pasword: test
+
+'student' account:
+	username: henry.m
+	password: test
+
 
 Konfigurisanje WildFly 23.0.2. servera
 
