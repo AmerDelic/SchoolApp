@@ -96,9 +96,9 @@ Konfigurisanje WildFly 23.0.2. servera
 	To bi trebalo biti sve. Nakon sto restartujete server, otvorite njegov config file "standalone-full.xml" (wWILDFLY_HOME\standalone\configuration)
 	i provjerite da li je novi datasource tu i konfigurisan kako treba.
 	
-	Unutar elementa <datasources> .. </datasources> trebao bi biti i sljedeci datasource, naravno sa vasim username i passwordom:
+	Unutar elementa 'datasources' trebao' bi biti i sljedeci datasource, naravno sa vasim username i passwordom:
 	
-				<datasource jndi-name="java:/school" pool-name="SchoolAppDb" spy="true">
+		<datasource jndi-name="java:/school" pool-name="SchoolAppDb" spy="true">
                     <connection-url>jdbc:mysql://localhost:3306/school?useSSL=false</connection-url>
                     <driver-class>com.mysql.cj.jdbc.Driver</driver-class>
                     <datasource-class>com.mysql.cj.jdbc.MysqlDataSource</datasource-class>
