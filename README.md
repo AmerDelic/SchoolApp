@@ -93,7 +93,7 @@ Konfigurisanje WildFly 23.0.2. servera
 			- provjeriti da li je JTA = true
 			- ovdje treba dodati jedan 'Connection property', naime "databaseName=school", samo klik na 'edit' i unijeti spomenuti property.
 			
-	To bi trebalo biti sve. Nakon sto restartujete server, otvorite njegov config file "standalone-full.xml" (wWILDFLY_HOME\standalone\configuration)
+	To bi trebalo biti sve. Nakon sto restartujete server, otvorite njegov config file "standalone-full.xml" (WILDFLY_HOME\standalone\configuration)
 	i provjerite da li je novi datasource tu i konfigurisan kako treba.
 	
 	Unutar elementa 'datasources' trebao' bi biti i sljedeci datasource, naravno sa vasim username i passwordom:
